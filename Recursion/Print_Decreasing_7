@@ -1,0 +1,9 @@
+void PrintDec(int n)
+{
+    //base case
+    if(n==0)
+        return;
+    
+    cout<<n<<" ";
+    PrintDec(n-1);  //its tail recursion 
+}
