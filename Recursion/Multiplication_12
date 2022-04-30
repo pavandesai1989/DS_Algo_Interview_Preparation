@@ -1,0 +1,19 @@
+Given two integers M & N, calculate and return their multiplication using recursion. You can only use subtraction and addition for your calculation. No other operators are allowed.
+Input format :
+Line 1 : Integer M
+Line 2 : Integer N
+
+
+int multiplyNumbers(int m, int n) 
+{
+    
+	if (n == 1)  return m;
+	if (m == 1)  return n;
+
+	// Write your code here
+	if (m == 0 || n == 0)
+		return 0;
+
+	return m + multiplyNumbers(m, n - 1);  
+
+}
