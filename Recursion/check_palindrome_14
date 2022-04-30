@@ -1,0 +1,22 @@
+#include<string.h>
+
+bool checkPalindromeRecursive(char input[],int start,int end)
+{
+    if(start >= end)  return true;   
+    
+    if(input[start] == input[end])
+        return checkPalindromeRecursive(input, start + 1, end - 1);
+    else 
+        return false;
+    
+    return true;  
+}
+
+
+bool checkPalindrome(char input[])
+{
+    int len = strlen (input);  
+    
+    if(input[0] == '\0')  return true;
+    checkPalindromeRecursive(input,0,len-1);
+}
