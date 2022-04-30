@@ -1,0 +1,19 @@
+void findallindexes(int input[],int curridx,int size,int x,int output[],int &k)
+{
+    if(curridx == size)
+        return;
+    
+    if(input[curridx] == x)
+    {
+        output[k] = curridx;
+        k++;
+    }
+    findallindexes(input,curridx+1,size,x,output,k);
+}
+
+int allIndexes(int input[], int size, int x, int output[]) 
+{
+    int k=0;
+    findallindexes(input,0,size,x,output,k);
+    return k;
+}
