@@ -17,3 +17,4 @@ int allIndexes(int input[], int size, int x, int output[])
     findallindexes(input,0,size,x,output,k);
     return k;
 }
+ 
