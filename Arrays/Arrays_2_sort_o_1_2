@@ -1,0 +1,31 @@
+#include <bits/stdc++.h> 
+
+// Time complexity is O(n)
+void sort012(int *arr, int n)
+{
+    int l = 0;
+    int m = 0;
+    int h = n-1;
+	
+	while(m<=h)
+	{
+		int x = arr[m];
+		if(x == 0)
+		{
+			swap(arr[l],arr[m]);
+			l++;
+			m++;
+		}
+		else if(x == 1)
+			m++;
+		
+		else
+		{
+			swap(arr[m],arr[h]);
+			h--;
+		}
+	}
+}
+
+//count 0 1 and 2 by running loop -- o(n)
+//insert 0 1 2 -- o(n)
