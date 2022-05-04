@@ -27,7 +27,7 @@ public:
 };
 
 //sort the array and compare adjecent ele and if not equal return
-// Time O(nlogn)   space o(1)
+// Time O(nlogn)   space o(1) 
 class Solution {
 public:
     int singleNumber(vector<int>& nums) { 
