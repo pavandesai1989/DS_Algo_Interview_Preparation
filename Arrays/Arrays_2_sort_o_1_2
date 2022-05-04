@@ -27,5 +27,5 @@ void sort012(int *arr, int n)
 	}
 }
 
-//count 0 1 and 2 by running loop -- o(n)
+//count 0 1 and 2 by running loop -- o(n) 
 //insert 0 1 2 -- o(n)
