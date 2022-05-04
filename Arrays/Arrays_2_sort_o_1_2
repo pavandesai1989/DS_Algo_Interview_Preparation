@@ -10,7 +10,7 @@ void sort012(int *arr, int n)
 	while(m<=h)
 	{
 		int x = arr[m];
-		if(x == 0)
+		if(x == 0) 
 		{
 			swap(arr[l],arr[m]);
 			l++;
