@@ -9,4 +9,4 @@
         return sum;  
     }
     
-    //another approach is using xor
+    //another approach is using xor 
