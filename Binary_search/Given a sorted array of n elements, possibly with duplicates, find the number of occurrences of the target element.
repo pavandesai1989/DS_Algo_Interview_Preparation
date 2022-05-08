@@ -1,1 +1,55 @@
+//Link to the problem:
+https://www.codingninjas.com/codestudio/problems/occurrence-of-x-in-a-sorted-array_630456?leftPanelTab=1
 
+int countOccurences(int arr[], int n, int X)
+{
+	        //first occurance 
+        int s = 0;
+        int e = n-1;
+        int first = -1;
+	    int totaloccu = 0;
+        
+        while(s<=e)
+        {
+            int mid = s + (e-s)/2;
+            if(arr[mid] == X)
+            {
+                first = mid;
+                //as we need first occu move to left of array
+                e = mid-1;
+            }
+            else if(arr[mid] > X)
+            {
+                e = mid-1;
+            }
+            else
+                s = mid+1;
+        }
+        
+        //last occurance 
+        s = 0;
+        e = n-1;
+        int last = -1;
+        
+        while(s<=e)
+        {
+            int mid = s + (e-s)/2;
+            if(arr[mid] == X)
+            {
+                last = mid;
+                //as we need last occu move to right of array
+                s = mid+1;
+            }
+            else if(arr[mid] > X)
+            {
+                e = mid-1;
+            }
+            else
+                s = mid+1;
+        }
+	    
+	    if(first!=-1 || last!=-1)
+			totaloccu = last - first +1;
+	
+    return totaloccu;	
+}
