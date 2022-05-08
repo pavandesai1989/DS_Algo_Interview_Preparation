@@ -1,0 +1,38 @@
+//https://leetcode.com/problems/sqrtx/
+
+NOTE:****** //if we use int for mid and ans , we get run time error overflow. //so using long long int
+
+class Solution {
+
+int binarysearch(int n)
+{
+    int s = 0;
+    int e = n;
+    long long int ans = -1;
+    
+    while(s<=e)
+    {
+        long long int mid = s + (e-s)/2;
+        long long int sq = mid* mid;
+        
+        if(sq == n)
+          return mid;
+        else if (sq < n)
+        {
+            //store the ans
+            ans = mid;
+            s = mid+1;
+        }
+        else
+            e = mid-1;
+    }
+    
+    return ans;
+}
+public:
+    int mySqrt(int x) 
+    {
+        return  binarysearch(x);
+        
+    }
+};
