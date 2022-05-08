@@ -33,6 +33,5 @@ public:
     int mySqrt(int x) 
     {
         return  binarysearch(x);
-        
     }
 };
