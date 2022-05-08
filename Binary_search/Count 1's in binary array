@@ -62,4 +62,4 @@ int main()
         cout <<ob.countOnes(arr, n)<<endl;
     }
     return 0;
-}  // } Driver Code Ends 
+}  // } Driver Code Ends  
