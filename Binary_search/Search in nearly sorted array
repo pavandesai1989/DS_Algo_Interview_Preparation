@@ -1,0 +1,44 @@
+// Function to search an element `target` in a nearly sorted array `nums`
+int searchElement(int nums[], int n, int target)
+{
+    // search space is nums[low…high]
+    int low = 0, high = n - 1;
+ 
+    // loop till the search space is exhausted
+    while (low <= high)
+    {
+        // find middle index `mid` and compare nums[mid-1], nums[mid], and nums[mid+1]
+        // with the target number
+        int mid = (low + high) / 2;
+ 
+        // return `mid` if the middle element is equal to the target number
+        if (nums[mid] == target) {
+            return mid;
+        }
+ 
+        // return `mid-1` if nums[mid-1] is equal to the target number
+        else if (mid - 1 >= low && nums[mid - 1] == target) {
+            return mid - 1;
+        }
+ 
+        // return `mid+1` if nums[mid+1] is equal to the target number
+        else if (mid + 1 <= high && nums[mid + 1] == target) {
+            return mid + 1;
+        }
+ 
+        // if the middle element is less than the target number,
+        // reduce search space to the right subarray nums[mid+2…high]
+        else if (target > nums[mid]) {
+            low = mid + 2;
+        }
+ 
+        // if the middle element is greater than the target number,
+        // reduce search space to the right subarray nums[low…mid-2]
+        else {
+            high = mid - 2;
+        }
+    }
+ 
+    // invalid input or number is not present in the array
+    return -1;
+}
