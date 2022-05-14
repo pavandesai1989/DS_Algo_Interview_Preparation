@@ -1,0 +1,23 @@
+//https://www.codingninjas.com/codestudio/problems/chocolate-problem_893280?leftPanelTab=1
+
+int findMinDiff(int n, int m, vector<int> chocolates) 
+{
+    int ans = INT_MAX;
+	//sort the array
+	sort(chocolates.begin(),chocolates.end());
+	//number of windows = n-m
+	for(int i=0;i<=n-m;i++)
+	{
+		//first point of window
+		int min = chocolates[i];
+		
+		//end point of window
+		int max = chocolates[i+m-1];
+		
+		if(abs(min-max) < ans)
+			ans = abs(min-max);
+		
+	}
+	
+	return ans;
+}
