@@ -1,0 +1,58 @@
+//https://www.codingninjas.com/codestudio/problems/painter-s-partition-problem_1089557
+
+bool possiblesolu(vector<int> &boards,int n,int k,int mid)
+{
+	int numpainters = 1;
+	int boardsize = 0;
+	
+	for(int i=0;i<n;i++)
+	{
+		if(boardsize+boards[i]<=mid)
+			boardsize +=boards[i];
+		else
+		{
+			numpainters++;
+			
+			if(numpainters > k || boards[i]>mid)
+				return false;
+			
+			boardsize = boards[i];
+		}
+	}
+	
+	return true;
+}
+
+int findLargestMinDistance(vector<int> &boards, int k)
+{
+    int max = 0;
+	int sum = 0;
+	int mid = -1;
+	
+	for(auto ele:boards)
+	{
+		sum+=ele;
+		if(ele > max)
+			max = ele;
+	}
+	
+	//search space
+	int s = max;
+	int e = sum;
+	int ans = -1;
+	
+	while(s<=e)
+	{
+		mid = s + (e-s)/2;
+		
+		if(possiblesolu(boards,boards.size(),k,mid) == true)
+		{
+			ans = mid;
+			e = mid-1; //minimize the result
+		}
+		else
+			s = mid+1;
+	}
+	
+	return ans;
+}
