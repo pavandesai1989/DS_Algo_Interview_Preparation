@@ -1,0 +1,61 @@
+bool ispossiblesolution(vector<int> &weights,int n,int days,int mid)
+{
+    int d = 1;
+    int weightsum = 0;
+    
+    for(int i=0;i<n;i++)
+    {
+        if(weightsum + weights[i]<=mid)
+            weightsum +=weights[i];
+        else
+        {
+            d++;
+            
+            if(d > days || weights[i]>mid)
+                return false;
+            
+            weightsum = weights[i];
+        }
+    }
+    
+    return true;
+}
+//https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+
+
+
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) 
+    {
+       int n = weights.size();
+       int sum = 0;
+       int max = 0;
+       int ans = 0;
+        
+       for(auto ele:weights)
+       {
+           sum +=ele;
+           if(ele>max)
+               max = ele;
+       }
+        
+        int s = max;
+        int e = sum;
+        int mid = -1;
+        
+        while(s<=e)
+        {
+          mid = s + (e-s)/2;
+          if(ispossiblesolution(weights,n,days,mid))
+          {
+              ans = mid;
+              e = mid-1; //we want to minimize the max weight on the conveyor
+          }
+            else
+              s = mid+1;  
+        }
+        
+        return ans;
+    }
+};
