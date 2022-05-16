@@ -1,0 +1,64 @@
+//https://leetcode.com/problems/spiral-matrix-ii/submissions/
+
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) 
+    {
+        int row = n;
+        int col = n;
+        
+        int left = 0;
+        int right = n-1;
+        
+        int top = 0;
+        int bottom = n-1;
+        
+        int dir = 0;
+        int val = 1;
+        
+        vector<vector<int>> ans(n,vector<int>(n,1));  //imp line else run time error
+        
+        while(left<=right && top<=bottom)
+        {
+            if(dir == 0)
+            {
+                for(int i=left;i<=right;i++)
+                {
+                    ans[top][i] = val++;
+                }
+                top = top+1;
+                dir = 1; //imp
+            }
+            else if(dir == 1)
+            {
+                for(int i=top;i<=bottom;i++)
+                {
+                    ans[i][right] = val++;
+                }
+                right = right - 1;
+                dir = 2;
+            }
+            else if(dir == 2)
+            {
+                for(int i=right;i>=left;i--)
+                {
+                    ans[bottom][i] = val++;
+                }
+                bottom = bottom-1;
+                dir = 3;
+            }
+            else if(dir == 3)
+            {
+                for(int i=bottom;i>=top;i--)
+                {
+                    ans[i][left] = val++;
+                }
+                left = left+1;
+                dir = 0;
+            }
+        }
+
+        return ans;
+        
+    }
+};
