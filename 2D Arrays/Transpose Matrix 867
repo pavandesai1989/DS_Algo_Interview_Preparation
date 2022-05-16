@@ -1,0 +1,24 @@
+//https://leetcode.com/problems/transpose-matrix/
+
+class Solution {
+public:
+    vector<vector<int>> transpose(vector<vector<int>>& matrix) 
+    {
+        int row = matrix.size();
+        int col = matrix[0].size();
+        
+        vector<vector<int>> res;
+        
+        for(int i=0;i<col;i++)
+        {
+            vector<int> ans;
+            for(int j=0;j<row;j++)
+            {
+                ans.push_back(matrix[j][i]);
+            }
+            
+            res.push_back(ans);
+        }
+        return res;
+    }
+};
