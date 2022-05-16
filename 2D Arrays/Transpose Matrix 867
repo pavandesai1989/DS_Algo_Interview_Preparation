@@ -31,7 +31,7 @@ public:
         int row = matrix.size();
         int col = matrix[0].size();
         
-        vector<vector<int>> res(row,vector<int>(col,0));  //note this 
+        vector<vector<int>> res(row,vector<int>(col,0));  //note this  
         
         for(int i=0;i<row;i++)
         {
