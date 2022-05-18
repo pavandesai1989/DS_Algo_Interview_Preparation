@@ -1,0 +1,40 @@
+//Time 0(n) and space O(1) : n is the length of the bills
+
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) 
+    {
+        int fives=0;
+        int tens=0;
+        
+        for(auto bill:bills)
+        {
+            if(bill == 5)
+                fives++;
+            else if (bill == 10)  //10 rupee
+            {
+                if(fives == 0) 
+                    return 0;
+                else
+                {
+                    tens++;
+                    fives--; 
+                }
+            }
+            else //20 rupee
+            {
+                if(fives > 0 && tens > 0)
+                {
+                    fives--;
+                    tens--;
+                }
+                else if(fives>=3)
+                    fives = fives - 3;
+                else
+                    return 0;
+            }
+        }
+        return true;
+        
+    }
+};
