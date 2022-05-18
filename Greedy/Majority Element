@@ -1,0 +1,18 @@
+//https://www.interviewbit.com/problems/majority-element/
+
+int Solution::majorityElement(const vector<int> &A) 
+{
+    unordered_map<int,int> mymap;
+    int n = A.size();
+
+    for(int i=0;i<n;i++)
+        mymap[A[i]]++;
+
+    for(auto ele: mymap)
+    {
+        if(ele.second >n/2)
+           return ele.first;
+    } 
+
+    return 0;   
+}
