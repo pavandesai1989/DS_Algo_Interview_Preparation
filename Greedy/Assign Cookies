@@ -1,5 +1,7 @@
 //Time O(nlogn) -- as we are sorting 
 
+We want to give largest cookie to the greediest child. 
+
 class Solution {
 public:
     int findContentChildren(vector<int>& g, vector<int>& s) 
