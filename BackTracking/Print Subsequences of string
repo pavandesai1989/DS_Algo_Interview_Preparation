@@ -1,0 +1,32 @@
+//https://www.codingninjas.com/codestudio/problems/print-subsequences_624391?leftPanelTab=0
+
+//Time : 2*n * n. 
+//space : o(n)
+
+void helper(char output[],char input[],int i,int j)
+{
+	if(input[i] == '\0')
+	{
+		output[j] = '\0';
+		cout<<output<<endl;
+		return;
+	}
+	
+	//include the charactre
+	output[j] = input[i];
+	
+	//call on remaning part
+	helper(output,input,i+1,j+1);
+	
+	//remove the last considered character
+	output[j] = '\0';
+	
+	helper(output,input,i+1,j);
+}
+
+void printSubsequences(char input[]) 
+{
+    char output[100];
+	helper(output,input,0,0);
+
+}
