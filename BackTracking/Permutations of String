@@ -1,0 +1,31 @@
+#include<algorithm>
+
+void helper(string s,int idx,vector<string>& ans)
+{
+        if(idx >= s.size())
+         {
+             ans.push_back(s);
+             return;
+         }
+         
+         for(int i=idx;i<s.size();i++)
+         {
+             swap(s[i],s[idx]);
+             helper(s,idx+1,ans);
+             swap(s[i],s[idx]); //restore original val
+             
+         }
+ }
+
+
+vector<string> generatePermutations(string &str)
+{
+   		    vector<string> ans;
+		    string op;
+		    
+		    helper(str,0,ans);
+		    
+		    sort(ans.begin(),ans.end());
+		    
+		    return ans;
+}
