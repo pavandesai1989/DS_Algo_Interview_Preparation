@@ -1,0 +1,44 @@
+void solve(string digits,string output,int idx,vector<string> mapping,vector<string> &ans)
+{
+    //base case
+    if(idx>=digits.size())
+    {
+        ans.push_back(output);
+        return;
+    }
+    
+    int number = digits[idx]-'0'; //convert char to int
+    string value = mapping[number];
+    
+    for(int i=0;i<value.size();i++)
+    {
+        //add the char to output
+        output.push_back(value[i]);
+        
+        //call on rest array
+        solve(digits,output,idx+1,mapping,ans);
+        
+        //remove ele while going back
+        output.pop_back();
+        
+    }
+    
+}
+
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) 
+    {
+        vector<string> res;
+        if(digits.size()<=0)
+            return res;
+        
+        string output = "";
+        
+        vector<string> mapping = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        
+        solve(digits,output,0,mapping,res);
+        return res;
+        
+    }
+};
