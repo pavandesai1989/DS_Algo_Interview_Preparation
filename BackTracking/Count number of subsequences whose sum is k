@@ -1,0 +1,48 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+    int helper(int ind,int s,int sum,int arr[],int n)
+    {
+        //base case
+        if(ind == n)
+        {
+            if(s == sum) 
+            	return true;
+            else
+            	return false;
+        }
+        
+        //take case 
+        s +=arr[ind];
+        
+        int left = helper(ind+1,s,sum,arr,n);
+        	
+        
+        //not take case
+        s-= arr[ind];  //imp case
+        
+        int right = helper(ind+1,s,sum,arr,n);
+
+        return left+right;
+        
+    }
+
+
+
+int main()
+{
+
+	freopen("input.txt","r",stdin);
+	freopen("output.txt","w",stdout);
+
+	int arr[] = {1,2,1};
+	int n = 3;
+	int sum = 2;
+
+	vector<int> ds;
+
+	cout<<helper(0,0,sum,arr,n);
+
+	return 0;
+}
