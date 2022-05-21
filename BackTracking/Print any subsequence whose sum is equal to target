@@ -1,0 +1,54 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+    bool helper(int ind,vector<int> &ds,int s,int sum,int arr[],int n)
+    {
+        //base case
+        if(ind == n)
+        {
+            if(s == sum)
+            {
+            	for(auto it:ds) cout<<it<<" ";
+            	return true; //condition satisfied
+            }
+            else
+              return false;
+        }
+        
+        //take case 
+        ds.push_back(arr[ind]);
+        s +=arr[ind];
+        
+        if(helper(ind+1,ds,s,sum,arr,n) == true)
+        	return true;
+        
+        //not take case
+        s-= arr[ind];  //imp case
+        ds.pop_back();
+        
+        if(helper(ind+1,ds,s,sum,arr,n) == true)
+        	return true;
+
+        return false;
+        
+    }
+
+
+
+int main()
+{
+
+	freopen("input.txt","r",stdin);
+	freopen("output.txt","w",stdout);
+
+	int arr[] = {1,2,1};
+	int n = 3;
+	int sum = 2;
+
+	vector<int> ds;
+
+	helper(0,ds,0,sum,arr,n);
+
+	return 0;
+}
