@@ -31,7 +31,7 @@ private:
         //dia down
         while(x<n && y>=0)
         {
-            if(board[x][y] == 'Q')
+            if(board[x][y] == 'Q') 
                 return false;
             
             x++;
