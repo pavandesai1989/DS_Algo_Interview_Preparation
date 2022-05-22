@@ -65,7 +65,12 @@ private:
 public:
     vector<vector<string>> solveNQueens(int n) 
     {
-        vector<string> board(n,string(n,'.'));
+          //vector<string> board(n,string(n,'.'));
+        string start = "";
+        for(int i=0;i<n;i++)
+            start = start + ".";
+        
+        vector<string> board(n,start);
         
         vector<vector<string>> ans;
         
