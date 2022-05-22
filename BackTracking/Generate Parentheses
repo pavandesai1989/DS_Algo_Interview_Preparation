@@ -1,0 +1,38 @@
+class Solution {
+private:
+    void generate(vector<string> &res,string output,int open,int close,int n,int idx)
+    {
+        if(idx == 2*n) //imp case or output.size() == n
+        {
+            res.push_back(output);
+            return;
+        }
+        
+        if(open < n)
+        {
+            output += '(';
+            generate(res,output,open+1,close,n,idx+1);
+            //back track
+            output.pop_back();
+        }
+        
+        if(close < open)
+        {
+            output += ')';
+            generate(res,output,open,close+1,n,idx+1);
+            //back track
+            output.pop_back();
+        }
+            
+    }
+public:
+    vector<string> generateParenthesis(int n) 
+    {
+        vector<string> res;
+        string output = "";
+        
+        generate(res,"",0,0,n,0);
+        
+        return res;
+    }
+};
