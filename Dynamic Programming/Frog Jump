@@ -1,0 +1,85 @@
+https://www.codingninjas.com/codestudio/problems/frog-jump_3621012?leftPanelTab=0
+
+
+*********** MEMOIZATION ************
+//Time : O(n) , as sub problems take constant time
+//Space : o(n) for the recursion stack space and O(n) for the dp array : Total O(n)
+
+#include<bits/stdc++.h>
+int helper(int idx,vector<int> &heights,vector<int> &dp)
+{
+    //base case
+    if( idx == 0)
+        return 0;
+    
+    if(dp[idx] != -1)
+        return dp[idx];
+    
+    int left = helper(idx-1,heights,dp) + abs(heights[idx] - heights[idx-1]);
+    int right = INT_MAX;
+    
+    if(idx > 1)
+        right = helper(idx-2,heights,dp) + abs(heights[idx] - heights[idx-2]);
+    
+    return dp[idx] = min(left,right);
+}
+
+int frogJump(int n, vector<int> &heights)
+{
+    vector<int> dp(n+1,-1);
+    
+    return helper(n-1,heights,dp);
+}
+
+************************ TABULATION*********
+// Time : O(n)
+// Space : O(n) dp array. We have avoided O(n) stack space here
+int frogJump(int n, vector<int> &heights)
+{
+    //using the tabulation
+    vector<int> dp(n,-1);
+    
+    //base case
+    dp[0] = 0;
+    
+    for(int i=1;i<n;i++)
+    {
+       int left = dp[i-1] + abs(heights[i] - heights[i-1]);
+       int right = INT_MAX;
+       
+        if(i >1)
+            right = dp[i-2] + abs(heights[i] - heights[i-2]);
+        
+        dp[i] = min(left,right);
+    }
+    
+    return dp[n-1];
+
+}
+
+********* SPACE OPTIMIZATION **********
+//Time : O(n)
+// Space : O(1) 
+int frogJump(int n, vector<int> &heights)
+{
+    //base case
+    int prev = 0;
+    int prev2 = 0;
+    int curri = 0;
+    
+    for(int i=1;i<n;i++)
+    {
+       int left = prev + abs(heights[i] - heights[i-1]);
+       int right = INT_MAX;
+       
+        if(i >1)
+            right = prev2 + abs(heights[i] - heights[i-2]);
+        
+        curri = min(left,right);
+        prev2 = prev;
+        prev = curri;
+    }
+    
+    return prev;
+}
+
