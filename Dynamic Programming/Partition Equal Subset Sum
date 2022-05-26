@@ -1,4 +1,4 @@
-//https://practice.geeksforgeeks.org/problems/subset-sum-problem2014/1#
+//https://www.codingninjas.com/codestudio/problems/partition-equal-subset-sum_892980?leftPanelTab=0
 
 /*
 Given an array arr[] of size N, check if it can be partitioned into two parts such that the sum of elements in both parts is the same.
@@ -11,78 +11,53 @@ The two parts are {1, 5, 5} and {11}.
 
 */
 
-// { Driver Code Starts
-// Initial Template for C++
+The array can be partitioned into two equal subsets
 
-#include <bits/stdc++.h>
-using namespace std;
+Time Complexity: O(N*K) +O(N)
 
- // } Driver Code Ends
-// User function Template for C++
+Reason: There are two nested loops that account for O(N*K) and at starting we are running a for loop to calculate totSum.
 
-class Solution{
-public:
-    bool isSubsetSum(int arr[],int n,int sum)
+Space Complexity: O(N*K)
+
+Reason: We are using an external array of size ‘N*K’. Stack Space is eliminated.
+
+bool subsetpartition(vector<int> &arr, int n,int k)
+{
+    vector<vector<bool>> dp(n+1,vector<bool>(k+1,false));
+    //initialize the dp array
+    for(int i=0;i<n+1;i++)
+        dp[i][0] = true;
+    
+    if(arr[0]<=k)
+        dp[0][arr[0]] = true;
+    
+    
+    for(int idx=1;idx<n+1;idx++)
     {
-        vector<vector<bool>> dp(n+1,vector<bool>(sum+1,false));
-        
-        for(int i=0;i<n+1;i++)
-           dp[i][0] = true;
-        
-        for(int j=0;j<sum+1;j++)
-           dp[0][j] = false;
-        
-        for(int i=1;i<n+1;i++) //array index
+        for(int target=1;target<k+1;target++)
         {
-            for(int j=1;j<sum+1;j++) //note its sum+1
-            {
-                if(arr[i-1] <= j)
-                {
-                    dp[i][j] = dp[i-1][j-arr[i-1]] || dp[i-1][j];
-                }
-                else
-                    dp[i][j] = dp[i-1][j];
-                
-            }
+            bool nottake = dp[idx-1][target];
+            
+            bool take = false;
+            if(arr[idx] <= target)
+                take = dp[idx-1][target-arr[idx]] ;
+            
+            dp[idx][target] = take || nottake;
         }
-        
-        return dp[n][sum];
     }
-    int equalPartition(int N, int arr[])
-    {
-        int sum = 0;
-        for(int i=0;i<N;i++)
-           sum += arr[i];
-        
-        if(sum%2 !=0)
-        {
-            return false;
-        }
-        else
-        {
-            return isSubsetSum(arr,N,sum/2);
-        }
-           
-    }
-};
+     return dp[n][k];
+}
 
-// { Driver Code Starts.
 
-int main(){
-    int t;
-    cin>>t;
-    while(t--){
-        int N;
-        cin>>N;
-        int arr[N];
-        for(int i = 0;i < N;i++)
-            cin>>arr[i];
-        
-        Solution ob;
-        if(ob.equalPartition(N, arr))
-            cout<<"YES\n";
-        else
-            cout<<"NO\n";
-    }
-    return 0;
-}  // } Driver Code Ends
+bool canPartition(vector<int> &arr, int n)
+{
+    //find sum of all elements
+    int sum = 0;
+    for(auto ele:arr)
+        sum += ele;
+    
+    if(sum%2 != 0)
+        return false;
+    else 
+        return subsetpartition(arr,n,sum/2);
+}
