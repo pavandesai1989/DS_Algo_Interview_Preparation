@@ -1,0 +1,119 @@
+//https://www.codingninjas.com/codestudio/problems/minimum-path-sum_985349
+
+******** RECURSION *****
+#include <bits/stdc++.h>
+int helper(int r,int c,vector<vector<int>> &grid)
+{
+    int n = grid.size();
+    int m = grid[0].size();
+    
+    //base case
+    if( r == 0 && c == 0)
+        return grid[r][c]; //consider this cost
+    if( r<0 || c<0 )
+        return INT_MAX; //we need min value so return large value
+    
+    int left = INT_MAX;
+    int up = INT_MAX;
+    
+    if(r>0)
+        up = grid[r][c] + helper(r-1,c,grid);
+    
+    if(c>0)
+        left = grid[r][c] + helper(r,c-1,grid);
+    
+    return min(left,up);
+    
+}
+
+int minSumPath(vector<vector<int>> &grid) 
+{
+    return helper(grid.size()-1,grid[0].size()-1,grid);
+}
+
+
+*************** MEMOIZATION *******
+#include <bits/stdc++.h>
+int helper(int r,int c,vector<vector<int>> &grid,vector<vector<int>> &dp)
+{
+    int n = grid.size();
+    int m = grid[0].size();
+    
+    //base case
+    if( r == 0 && c == 0)
+        return grid[r][c]; //consider this cost
+    if( r<0 || c<0 )
+        return INT_MAX; //we need min value so return large value
+    
+    if(dp[r][c] != -1)
+        return dp[r][c];
+    
+    int left = INT_MAX;
+    int up = INT_MAX;
+    
+    if(r>0)
+        up = grid[r][c] + helper(r-1,c,grid,dp);
+    
+    if(c>0)
+        left = grid[r][c] + helper(r,c-1,grid,dp);
+    
+    return dp[r][c] = min(left,up);
+    
+}
+
+int minSumPath(vector<vector<int>> &grid) 
+{
+    vector<vector<int>> dp(grid.size(),vector<int>(grid[0].size(),-1));
+    return helper(grid.size()-1,grid[0].size()-1,grid,dp);
+}
+
+Time Complexity: O(N*M)
+
+Reason: At max, there will be N*M calls of recursion.
+
+Space Complexity: O((M-1)+(N-1)) + O(N*M)
+
+Reason: We are using a recursion stack space:O((M-1)+(N-1)), here (M-1)+(N-1) is the path length and an external DP Array of size ‘N*M’.
+
+
+***********TABULATION **********
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) 
+    {
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        vector<vector<int>> dp(n,vector<int>(m,0));
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(i==0 && j==0)  dp[i][j] = grid[i][j];
+                else{
+                    int up = grid[i][j];
+                    if(i>0) up += dp[i-1][j]; //move up row reduces and col same
+                    else up += 1e9;
+                    
+                    int left = grid[i][j];
+                    if(j>0) left += dp[i][j-1];
+                    else left += 1e9;
+                    
+                    dp[i][j] = min(up,left);
+                }
+            }
+        }
+        
+        return dp[n-1][m-1]; 
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
