@@ -1,5 +1,7 @@
 //https://practice.geeksforgeeks.org/problems/subset-sum-problem-1611555638/1/
 
+//https://www.codingninjas.com/codestudio/problems/subset-sum-equal-to-k_1550954?leftPanelTab=1
+
 /*
 
 Given an array of non-negative integers, and a value sum, determine if there is a subset of the given set with sum equal to given sum. 
@@ -15,65 +17,113 @@ sum = 9, 4+3+2 = 9.
 
 */
 
-// { Driver Code Starts
-//Initial template for C++
 
-#include<bits/stdc++.h> 
-using namespace std; 
+************ RECURSION ************
+//Time : o(2 power (n)). //each level has 2 choices
+//space : o(n) + o(n) --> stack space 
 
- // } Driver Code Ends
-//User function template for C++
+bool helper(int idx,int target,vector<int> &arr)
+{
+    if(target==0)
+        return true;
+    
+    if(idx == 0)
+        return ( arr[0] == target);
+    
+    bool take = false;
+    bool nottake = helper(idx-1,target,arr);
+    
+    //pick the last element. before that check if its less than the target
+    if(arr[idx] <= target)
+         take = helper(idx-1,target-arr[idx],arr);
 
-class Solution{  
-public:
-    bool isSubsetSum(vector<int>arr, int sum)
+    return take | nottake;
+        
+}
+
+
+bool subsetSumToK(int n, int k, vector<int> &arr) 
+{
+    return helper(n-1,k,arr);  //note call is n-1
+}
+
+
+
+
+**************************MEMOIZATION********
+Time Complexity: O(N*K)
+
+Reason: There are N*K states therefore at max ‘N*K’ new problems will be solved.
+
+Space Complexity: O(N*K) + O(N)
+
+Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N*K)).
+
+bool helper(int idx,int target,vector<int> &arr,vector<vector<int>> &dp)
+{
+    if(target==0)
+        return true;
+    
+    if(idx == 0)
+        return ( arr[0] == target);
+    
+    if(dp[idx][target] != -1)
+        return dp[idx][target];
+        
+    bool take = false;
+    bool nottake = helper(idx-1,target,arr,dp);
+    
+    //pick the last element. before that check if its less than the target
+    if(arr[idx] <= target)
+         take = helper(idx-1,target-arr[idx],arr,dp);
+
+    return dp[idx][target] =  take | nottake;
+        
+}
+
+
+bool subsetSumToK(int n, int k, vector<int> &arr) 
+{
+    vector<vector<int>> dp(n+1,vector<int>(k+1,-1));
+    return helper(n-1,k,arr,dp);
+}
+
+
+**********************TABUALTION *********
+
+Time Complexity: O(N*K)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*K)
+
+Reason: We are using an external array of size ‘N*K’. Stack Space is eliminated.
+
+bool subsetSumToK(int n, int k, vector<int> &arr) 
+{
+    vector<vector<bool>> dp(n+1,vector<bool>(k+1,false));
+    
+    //initialize the dp array
+    for(int i=0;i<n+1;i++)
+        dp[i][0] = true;
+    
+    if(arr[0]<=k)
+        dp[0][arr[0]] = true;
+    
+    
+    for(int idx=1;idx<n+1;idx++)
     {
-        int n = arr.size();
-        
-        vector<vector<bool>> dp(n+1,vector<bool>(sum+1,false));
-        
-        for(int i=0;i<n+1;i++)
-           dp[i][0] = true;
-        
-        for(int j=0;j<sum+1;j++)
-           dp[0][j] = false;
-        
-        for(int i=1;i<n+1;i++) //array index
+        for(int target=1;target<k+1;target++)
         {
-            for(int j=1;j<sum+1;j++) //note its sum+1
-            {
-                if(arr[i-1] <= j)
-                {
-                    dp[i][j] = dp[i-1][j-arr[i-1]] || dp[i-1][j];
-                }
-                else
-                    dp[i][j] = dp[i-1][j];
-                
-            }
+            bool nottake = dp[idx-1][target];
+            
+            bool take = false;
+            if(arr[idx] <= target)
+                take = dp[idx-1][target-arr[idx]] ;
+            
+            dp[idx][target] = take || nottake;
         }
-        
-        return dp[n][sum];
     }
-};
 
-// { Driver Code Starts.
-int main() 
-{ 
-    int t;
-    cin>>t;
-    while(t--)
-    {
-        int N, sum;
-        cin >> N;
-        vector<int> arr(N);
-        for(int i = 0; i < N; i++){
-            cin >> arr[i];
-        }
-        cin >> sum;
-        
-        Solution ob;
-        cout << ob.isSubsetSum(arr, sum) << endl;
-    }
-    return 0; 
-} 
-  // } Driver Code Ends
+    return dp[n][k];
+}
