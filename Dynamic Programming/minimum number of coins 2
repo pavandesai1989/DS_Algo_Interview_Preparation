@@ -31,7 +31,7 @@ space o(n)
 
 ***** memoization*****
 #include<vector>
-long f(int idx,int value,int deno[],int n,vector<vector<int>> &dp)
+long f(int idx,int value,int deno[],int n,vector<vector<int>> &dp) 
 {
     //base case
     if(idx == 0)
