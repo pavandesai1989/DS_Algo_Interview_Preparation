@@ -1,0 +1,120 @@
+//https://www.codingninjas.com/codestudio/problems/ways-to-make-coin-change_630471?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+
+
+**** RECURSION*****
+long f(int idx,int value,int deno[],int n)
+{
+    //base case
+    if(idx == 0)
+    {
+        if(value%deno[0] == 0)
+            return 1;
+        else
+            return 0;
+    }
+    
+    int notetake = f(idx-1,value,deno,n);
+    int take = 0;
+    if(deno[idx]<=value)
+        take = f(idx,value-deno[idx],deno,n);
+    
+    return notetake + take;
+}
+
+long countWaysToMakeChange(int *denominations, int n, int value)
+{
+    int ans = f(n-1,value,denominations,n);
+}
+
+time : 2 power (n)
+space o(n)
+
+***** memoization*****
+#include<vector>
+long f(int idx,int value,int deno[],int n,vector<vector<int>> &dp)
+{
+    //base case
+    if(idx == 0)
+    {
+        if(value%deno[0] == 0)
+            return 1;
+        else
+            return 0;
+    }
+    
+    if(dp[idx][value] != -1)
+        return dp[idx][value];
+    
+    int notetake = f(idx-1,value,deno,n,dp);
+    int take = 0;
+    if(deno[idx]<=value)
+        take = f(idx,value-deno[idx],deno,n,dp);
+    
+    return dp[idx][value] = notetake + take;
+}
+
+long countWaysToMakeChange(int *denominations, int n, int value)
+{
+    vector<vector<int>> dp(n,vector<int>(value+1,-1));
+    long ans = f(n-1,value,denominations,n,dp);
+   
+    return ans;
+}
+
+Time Complexity: O(N*T)
+
+Reason: There are N*W states therefore at max ‘N*T’ new problems will be solved.
+
+Space Complexity: O(N*T) + O(N)
+
+Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N*T)).
+
+
+********** tabulation*******
+long countWaysToMakeChange(int *a, int n, int value)
+{
+    vector<vector<long>> dp(n,vector<long>(value+1,0));
+    //base case 
+    for(int T=0;T<=value;T++)
+    {
+            dp[0][T] = (T%a[0] == 0);
+    }
+    
+    for(int i=1;i<n;i++)
+    {
+        for(int j=0;j<=value;j++)
+        {
+             long nottake = dp[i-1][j];
+             long take = 0;
+             if(a[i]<=j)
+                take = dp[i][j-a[i]];
+             dp[i][j] = nottake + take;
+        }
+    }
+                
+    return dp[n-1][value];             
+
+}
+
+
+Time Complexity: O(N*T)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*T)
+
+Reason: We are using an external array of size ‘N*T’. Stack Space is eliminated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
