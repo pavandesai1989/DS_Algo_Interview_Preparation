@@ -1,0 +1,92 @@
+//https://www.codingninjas.com/codestudio/problems/rod-cutting-problem_800284?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+
+****** recusrion*****
+int f(int idx,int N,vector<int> &price)
+{
+    //base case
+    if(idx == 0)
+        return (price[0]*N);  // we need N rods of lens to make N.
+    
+    int nottake = f(idx-1,N,price);
+    int take = INT_MIN;
+    int rod_len = idx+1;
+    
+    if(rod_len <= N)
+        take = price[idx] + f(idx,N-rod_len,price);
+    
+    return max(nottake,take);
+}
+
+int cutRod(vector<int> &price, int n)
+{
+	return f(n-1,n,price);
+}
+
+Time : O(exponential)
+Space: O(N)
+
+************MEMOIZATION*******
+int f(int idx,int N,vector<int> &price,vector<vector<int>> &dp)
+{
+    //base case
+    if(idx == 0)
+        return (price[0]*N);
+    
+    if(dp[idx][N] != -1)
+        return dp[idx][N];
+    
+    int nottake = f(idx-1,N,price,dp);
+    int take = INT_MIN;
+    int rod_len = idx+1;
+    
+    if(rod_len <= N)
+        take = price[idx] + f(idx,N-rod_len,price,dp);
+    
+    return dp[idx][N] = max(nottake,take);
+}
+
+int cutRod(vector<int> &price, int n)
+{
+    vector<vector<int>> dp(n,vector<int>(n+1,-1));
+	return f(n-1,n,price,dp);
+}
+
+Time : O(n*n)
+Space : O(n*n) + o(n)
+
+************TABULATION********
+int cutRod(vector<int> &price, int n)
+{
+    vector<vector<int>> dp(n,vector<int>(n+1,0));
+    
+    for(int N=0;N<=n;N++)
+        dp[0][N] = N*price[0];
+
+    for(int ind=1;ind<n;ind++)
+    {
+        for(int N=0;N<=n;N++)
+        {
+                int nottake = dp[ind-1][N];
+                int take = INT_MIN;
+                int rod_len = ind+1;
+    
+                if(rod_len <= N)
+                    take = price[ind] + dp[ind][N-rod_len];
+                
+            dp[ind][N] = max(take,nottake);
+        }
+    }
+	return dp[n-1][n];
+}
+
+
+Time Complexity: O(N*N)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*N)
+
+Reason: We are using an external array of size ‘N*(N+1)’. Stack Space is eliminated.
+
+
+
