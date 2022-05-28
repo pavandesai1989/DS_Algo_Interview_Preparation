@@ -1,0 +1,144 @@
+//https://www.codingninjas.com/codestudio/problems/minimum-elements_3843091?leftPanelTab=0
+
+******* recursion *****
+int minimumElementsUtil(vector<int> &num,int idx,int tar)
+{
+   //base case
+    if(idx == 0)
+    {
+        if(tar%num[0] == 0)
+            return tar/num[0];
+        else
+            return 1e9;
+    }
+    
+    int nottake = 0 + minimumElementsUtil(num,idx-1,tar);
+    int take = 1e9;
+    if(num[idx]<=tar)
+        take = 1 + minimumElementsUtil(num,idx,tar-num[idx]);
+    
+    return min(nottake,take);
+}
+
+int minimumElements(vector<int> &num, int x)
+{
+       
+    int n= num.size();
+
+    int ans =  minimumElementsUtil(num, n-1, x);
+    if(ans >= 1e9) return -1;
+    return ans;
+}
+
+Time: 2 power(n)
+space : o(n)
+
+*********memoization****
+int minimumElementsUtil(vector<int> &num,int idx,int tar,vector<vector<int>> &dp)
+{
+   //base case
+    if(idx == 0)
+    {
+        if(tar%num[0] == 0)
+            return tar/num[0];
+        else
+            return 1e9;
+    }
+    
+    if(dp[idx][tar] != -1)
+        return dp[idx][tar];
+    
+    int nottake = 0 + minimumElementsUtil(num,idx-1,tar,dp);
+    int take = 1e9;
+    if(num[idx]<=tar)
+        take = 1 + minimumElementsUtil(num,idx,tar-num[idx],dp);
+    
+    return dp[idx][tar] = min(nottake,take);
+}
+
+int minimumElements(vector<int> &num, int x)
+{
+       
+    int n= num.size();
+    vector<vector<int>> dp(n,vector<int>(x+1,-1));
+
+    int ans =  minimumElementsUtil(num, n-1, x,dp);
+    if(ans >= 1e9) return -1;
+    return ans;
+}
+
+
+Time Complexity: O(N*T)
+
+Reason: There are N*T states therefore at max ‘N*T’ new problems will be solved.
+
+Space Complexity: O(N*T) + O(N)
+
+Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N*T)).
+
+
+******** TABULATION *****
+int minimumElements(vector<int> &num, int x)
+{
+    int n= num.size();
+    vector<vector<int>> dp(n,vector<int>(x+1,0));
+    
+    //base case 
+    for(int T=0;T<=x;T++)
+    {
+        if(T%num[0] == 0)
+        {
+            dp[0][T] = T/num[0];
+        }
+        else
+            dp[0][T] = 1e9;
+    }
+    
+    for(int i=1;i<n;i++) //o based index. for 0 we added in base case 
+    {
+        for(int j=0;j<=x;j++)
+        {
+                int nottake = 0 + dp[i-1][j];
+                int take = 1e9;
+                if(num[i]<=j)
+                   take = 1 + dp[i][j-num[i]];
+    
+                dp[i][j] = min(nottake,take);
+        }
+    }
+    
+    int ans =  dp[n-1][x];
+    if(ans >= 1e9) return -1;
+    return ans;
+}
+
+Time Complexity: O(N*T)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*T)
+
+Reason: We are using an external array of size ‘N*T’. Stack Space is eliminated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
