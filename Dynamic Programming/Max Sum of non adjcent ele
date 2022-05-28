@@ -80,7 +80,27 @@ Space Complexity: O(N)
 Reason: We are using an external array of size ‘n+1’.
 
 
+****** LEETCODE ***
+#include<bits/stdc++.h>
 
+class Solution {
+public:
+    int rob(vector<int>& nums) 
+    {
+        if(nums.size() == 1) return nums[0];
+        vector<int> dp(nums.size());
+        
+        //base case
+        dp[0] = nums[0]; //we reached dest
+        dp[1] = max(nums[1],nums[0]);
+        for(int i=2;i<nums.size();i++)
+          dp[i] = max(dp[i-1],nums[i] + dp[i-2]);
+
+        return dp[nums.size()-1];
+    }
+};
+
+     
 
 
 
