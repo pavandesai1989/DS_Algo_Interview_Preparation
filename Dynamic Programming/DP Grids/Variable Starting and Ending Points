@@ -1,0 +1,172 @@
+//https://www.codingninjas.com/codestudio/problems/maximum-path-sum-in-the-matrix_797998
+
+******** recursion*****
+int helper(int i,int j,vector<vector<int>> &matrix)
+{
+    //base case
+    if( j<0 || j>=matrix[0].size())
+        return -1e9;
+    
+    if(i==0)//reached the destination
+        return matrix[0][j]; 
+    
+    //do all stuffs on the index
+    int up = matrix[i][j] + helper(i-1,j,matrix);
+    int dialeft = matrix[i][j] + helper(i-1,j-1,matrix);
+    int diaright = matrix[i][j] + helper(i-1,j+1,matrix);
+    
+    return max(up,max(dialeft,diaright));
+}
+
+
+int getMaxPathSum(vector<vector<int>> &matrix)
+{
+    int n = matrix.size();
+    int m = matrix[0].size();
+    
+    int maxi = -1e9; //note 
+    
+    for(int i=0;i<m;i++)
+    {
+        int ans =  helper(n-1,i,matrix);
+        maxi = max(maxi,ans);
+    }
+    
+    return maxi;
+}
+
+Time : 3 power(n) // at each point we have 3 options to move 
+space : O(N) //stack space 
+
+****************** MEMOIZATION***************
+int helper(int i,int j,vector<vector<int>> &matrix,vector<vector<int>> &dp)
+{
+    //base case
+    if( j<0 || j>=matrix[0].size())
+        return -1e9;
+    
+    if(i==0)//reached the destination
+        return matrix[0][j]; 
+    
+    if(dp[i][j] != -1)
+        return dp[i][j];
+    
+    //do all stuffs on the index
+    int up = matrix[i][j] + helper(i-1,j,matrix,dp);
+    int dialeft = matrix[i][j] + helper(i-1,j-1,matrix,dp);
+    int diaright = matrix[i][j] + helper(i-1,j+1,matrix,dp);
+    
+    return dp[i][j] = max(up,max(dialeft,diaright));
+}
+
+
+int getMaxPathSum(vector<vector<int>> &matrix)
+{
+    int n = matrix.size();
+    int m = matrix[0].size();
+    
+    vector<vector<int>> dp(n,vector<int>(m,-1));
+    
+    int maxi = -1e9; //note 
+    
+    for(int i=0;i<m;i++)
+    {
+        int ans =  helper(n-1,i,matrix,dp);
+        maxi = max(maxi,ans);
+    }
+    
+    return maxi;
+}
+
+Time Complexity: O(N*N)
+
+Reason: At max, there will be M*N calls of recursion to solve a new problem,
+
+Space Complexity: O(N) + O(N*M)
+
+Reason: We are using a recursion stack space: O(N), where N is the path length and an external DP Array of size ‘N*M’.
+
+****************** TABULATION************
+int helper(int i,int j,vector<vector<int>> &matrix,vector<vector<int>> &dp)
+{
+    //base case
+    if( j<0 || j>=matrix[0].size())
+        return -1e9;
+    
+    if(i==0)//reached the destination
+        return matrix[0][j]; 
+    
+    if(dp[i][j] != -1)
+        return dp[i][j];
+    
+    //do all stuffs on the index
+    int up = matrix[i][j] + helper(i-1,j,matrix,dp);
+    int dialeft = matrix[i][j] + helper(i-1,j-1,matrix,dp);
+    int diaright = matrix[i][j] + helper(i-1,j+1,matrix,dp);
+    
+    return dp[i][j] = max(up,max(dialeft,diaright));
+}
+
+
+int getMaxPathSum(vector<vector<int>> &matrix)
+{
+    int n = matrix.size();
+    int m = matrix[0].size();
+    vector<vector<int>> dp(n,vector<int>(m,0));
+    
+    //base case 
+    for(int i=0;i<m;i++) //each column
+        dp[0][i] = matrix[0][i];
+    
+    for(int i=1;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            int up = matrix[i][j] + dp[i-1][j];
+            
+            int dialeft = matrix[i][j];
+            if(j-1>=0)
+                dialeft += dp[i-1][j-1];
+            else
+                dialeft += -1e9;
+
+            int diaright = matrix[i][j];
+            if(j+1<m)
+                diaright +=  dp[i-1][j+1];
+            else
+                diaright += -1e9;
+            
+            dp[i][j] = max(up,max(dialeft,diaright));
+        }
+    }
+    
+    //we interested in the last row
+    
+    int maxi = -1e9; //note 
+    for(int i=0;i<m;i++)
+    {
+        maxi = max(maxi,dp[n-1][i]);
+    }
+    
+    return maxi;
+}
+
+Time Complexity: O(N*M)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*M)
+
+Reason: We are using an external array of size ‘N*M’. The stack space will be eliminated.
+
+
+
+
+
+
+
+
+
+
+
+
