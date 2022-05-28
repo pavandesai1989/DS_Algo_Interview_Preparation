@@ -1,233 +1,133 @@
 ******* RECURSIVE SOLUTION *****
-// { Driver Code Starts
-#include<bits/stdc++.h>
-using namespace std;
-
-
- // } Driver Code Ends
-class Solution
+int helper(int idx,vector<int> weight,vector<int> value,int maxweight)
 {
-    public:
-    //Function to return max value that can be put in knapsack of capacity W.
-    int knapSack(int W, int wt[], int val[], int n) 
-    { 
-       //base case
-       if(W == 0 || n == 0)
-          return 0;
-       
-        if(wt[n-1]<=W)
-        {
-            //pick the wt. So W will reduce and also n to n-1
-            int pick = val[n-1] + knapSack(W-wt[n-1],wt,val,n-1);
-            int nopick = knapSack(W,wt,val,n-1);
-            
-            return max(pick,nopick);
-        }
-        else if(wt[n-1]>W)
-        {
-            return knapSack(W,wt,val,n-1);
-        }
-    }
-};
-
-// { Driver Code Starts.
-
-int main()
- {
-    //taking total testcases
-    int t;
-    cin>>t;
-    while(t--)
+    //base case
+    if(idx == 0)
     {
-        //reading number of elements and weight
-        int n, w;
-        cin>>n>>w;
-        
-        int val[n];
-        int wt[n];
-        
-        //inserting the values
-        for(int i=0;i<n;i++)
-            cin>>val[i];
-        
-        //inserting the weights
-        for(int i=0;i<n;i++)
-            cin>>wt[i];
-        Solution ob;
-        //calling method knapSack()
-        cout<<ob.knapSack(w, wt, val, n)<<endl;
-        
+        if(weight[0] <= maxweight)
+            return value[0];
+        else
+            return 0;
     }
-	return 0;
-}  // } Driver Code Ends
+    
+    //do all stuffs
+    int nottake = helper(idx-1,weight,value,maxweight);
+    
+    //take case. take the current ele and call on next item
+    int take = INT_MIN; // as we need max value
+    if(weight[idx] <= maxweight)
+       take = value[idx] + helper(idx-1,weight,value,maxweight-weight[idx]);
+    
+    return max(take,nottake);
+}
+
+
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+{
+	return helper(n-1,weight,value,maxWeight);
+}
 
 ************ MEMOIZATION **********
-// { Driver Code Starts
-#include<bits/stdc++.h>
-using namespace std;
-
-
- // } Driver Code Ends
-class Solution
+int helper(int idx,vector<int> weight,vector<int> value,int W,vector<vector<int>> &dp)
 {
-    private:
-    int helper(int W, int wt[], int val[], int n,int dp[1002][1002])
+    //base case
+    if(idx == 0)
     {
-        //base case
-       if(W == 0 || n == 0)
-          return 0;
-        
-        if(dp[n][W] != -1)
-           return dp[n][W];
-       
-        if(wt[n-1]<=W)
+        if(weight[0] <= W)
+            return value[0];
+        else
+            return 0;
+    }
+    
+    if(dp[idx][W] != -1)
+        return dp[idx][W];
+    
+    //do all stuffs
+    int nottake = helper(idx-1,weight,value,W,dp);
+    
+    //take case. take the current ele and call on next item
+    int take = INT_MIN; // as we need max value
+    if(weight[idx] <= W)
+       take = value[idx] + helper(idx-1,weight,value,W-weight[idx],dp);
+    
+    return dp[idx][W] = max(take,nottake);
+}
+
+
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+{
+    vector<vector<int>> dp(n,vector<int>(maxWeight+1,-1));
+	return helper(n-1,weight,value,maxWeight,dp);
+}
+
+Time Complexity: O(N*W)
+
+Reason: There are N*W states therefore at max ‘N*W’ new problems will be solved.
+
+Space Complexity: O(N*W) + O(N)
+
+Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N*W)).
+***********TABULATION***
+int helper(int idx,vector<int> weight,vector<int> value,int W,vector<vector<int>> &dp)
+{
+    //base case
+    if(idx == 0)
+    {
+        if(weight[0] <= W)
+            return value[0];
+        else
+            return 0;
+    }
+    
+    if(dp[idx][W] != -1)
+        return dp[idx][W];
+    
+    //do all stuffs
+    int nottake = helper(idx-1,weight,value,W,dp);
+    
+    //take case. take the current ele and call on next item
+    int take = INT_MIN; // as we need max value
+    if(weight[idx] <= W)
+       take = value[idx] + helper(idx-1,weight,value,W-weight[idx],dp);
+    
+    return dp[idx][W] = max(take,nottake);
+}
+
+
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+{
+    vector<vector<int>> dp(n,vector<int>(maxWeight+1,0));
+	//base case 
+    for(int i=weight[0];i<=maxWeight;i++)
+    {
+        dp[0][i] = value[0];
+    }
+    
+    for(int i=1;i<n;i++) //index
+    {
+        for(int j=0;j<=maxWeight;j++)  //weight
         {
-            //pick the wt. So W will reduce and also n to n-1
-            int pick = val[n-1] + helper(W-wt[n-1],wt,val,n-1,dp);
-            int nopick = helper(W,wt,val,n-1,dp);
+              int nottake = dp[i-1][j];
+              int take = -1e9;
+              if(weight[i]<=j)
+                take = value[i] + dp[i-1][j-weight[i]];
             
-            return dp[n][W] = max(pick,nopick);
-        }
-        else if(wt[n-1]>W)
-        {
-            return dp[n][W] = helper(W,wt,val,n-1,dp);
+              dp[i][j] = max(take,nottake);
         }
     }
     
-    public:
-    //Function to return max value that can be put in knapsack of capacity W.
-    int knapSack(int W, int wt[], int val[], int n) 
-    { 
-         int dp[1002][1002];
-         memset(dp,-1,sizeof(dp));
-         
-         return helper(W,wt,val,n,dp);
-         
-    }
-};
-
-// { Driver Code Starts.
-
-int main()
- {
-    //taking total testcases
-    int t;
-    cin>>t;
-    while(t--)
-    {
-        //reading number of elements and weight
-        int n, w;
-        cin>>n>>w;
-        
-        int val[n];
-        int wt[n];
-        
-        //inserting the values
-        for(int i=0;i<n;i++)
-            cin>>val[i];
-        
-        //inserting the weights
-        for(int i=0;i<n;i++)
-            cin>>wt[i];
-        Solution ob;
-        //calling method knapSack()
-        cout<<ob.knapSack(w, wt, val, n)<<endl;
-        
-    }
-	return 0;
-}  // } Driver Code Ends
-
-************** TABULATION************
-// { Driver Code Starts
-#include<bits/stdc++.h>
-using namespace std;
+    return dp[n-1][maxWeight];
+}
 
 
- // } Driver Code Ends
-class Solution
-{
-    private:
-    int helper(int W, int wt[], int val[], int n,int dp[1002][1002])
-    {
-        //base case
-       if(W == 0 || n == 0)
-          return 0;
-          
-        for(int i=1;i<n+1;i++)
-        {
-            for(int j=1;j<W+1;j++)
-            {
-                if(wt[i-1]<=j)
-                {
-                    int pick = val[i-1] + dp[i-1][j-wt[i-1]];
-                    int nopick = dp[i-1][j];
-                
-                    dp[i][j] = max(pick,nopick);   //no return statement here
-                }
-                else
-                    dp[i][j] = dp[i-1][j]; //no return statement here
 
-            }
-        }
-        
-        return dp[n][W]; //imp
+Time Complexity: O(N*W)
 
-    }
-    
-    public:
-    //Function to return max value that can be put in knapsack of capacity W.
-    int knapSack(int W, int wt[], int val[], int n) 
-    { 
-         int dp[1002][1002];
-         memset(dp,-1,sizeof(dp));
-         
-         //initialize base case
-         for(int i=0;i<n+1;i++)
-         {
-             for(int j=0;j<W+1;j++)
-             {
-                 if(i == 0 || j == 0 )
-                 {
-                     dp[i][j] = 0;
-                 }
-             }
-         }
-         
-         return helper(W,wt,val,n,dp);
-         
-    }
-};
+Reason: There are two nested loops
 
-// { Driver Code Starts.
+Space Complexity: O(N*W)
 
-int main()
- {
-    //taking total testcases
-    int t;
-    cin>>t;
-    while(t--)
-    {
-        //reading number of elements and weight
-        int n, w;
-        cin>>n>>w;
-        
-        int val[n];
-        int wt[n];
-        
-        //inserting the values
-        for(int i=0;i<n;i++)
-            cin>>val[i];
-        
-        //inserting the weights
-        for(int i=0;i<n;i++)
-            cin>>wt[i];
-        Solution ob;
-        //calling method knapSack()
-        cout<<ob.knapSack(w, wt, val, n)<<endl;
-        
-    }
-	return 0;
-}  // } Driver Code Ends 
+Reason: We are using an external array of size ‘N*W’. Stack Space is eliminated.
 
 
 
