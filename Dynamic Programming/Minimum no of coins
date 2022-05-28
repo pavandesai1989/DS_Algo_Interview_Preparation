@@ -31,7 +31,7 @@ int minimumElements(vector<int> &num, int x)
 }
 
 Time: 2 power(n)
-space : o(n)
+space : o(n) 
 
 *********memoization****
 int minimumElementsUtil(vector<int> &num,int idx,int tar,vector<vector<int>> &dp)
