@@ -1,0 +1,36 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+//undirected graph
+void addedge(vector<int> adj[],int u,int v)
+{
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+}
+
+void printgraph(vector<int> adj[],int v)
+{
+    for(int i=0;i<v;i++)
+    {
+        for(int x:adj[i])
+            cout<<x<<" ";
+        
+        cout<<endl;
+    }
+}
+
+int main()
+{
+    int v = 4; //number of vertices
+    vector<int> adj[v]; //0 based index
+    
+    addedge(adj,0,1);
+    addedge(adj,0,2);
+    addedge(adj,2,1);
+    addedge(adj,1,3);
+    
+    printgraph(adj,v);
+    
+    
+}
