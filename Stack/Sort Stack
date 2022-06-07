@@ -1,0 +1,30 @@
+//https://www.codingninjas.com/codestudio/problems/sort-a-stack_985275?leftPanelTab=1
+
+void insertsorted(stack<int> &s,int num)
+{
+    //base case 
+    if(s.empty() || (!s.empty() && s.top()<num))
+    {
+        s.push(num);
+        return;
+    }
+    int n = s.top();
+    s.pop();
+    insertsorted(s,num);
+    
+    //imp
+    s.push(n);
+}
+
+void sortStack(stack<int> &s)
+{
+	//base case
+    if(s.empty())
+        return;
+    
+    int num = s.top();
+    s.pop();
+    sortStack(s);
+    
+    insertsorted(s,num);
+}
