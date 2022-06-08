@@ -65,3 +65,11 @@ public:
             return -1;
     }
 };
+
+
+
+Time Complexity: 
+Push operation : O(1)
+Pop operation : O(1)
+Auxiliary Space :O(N). 
+
