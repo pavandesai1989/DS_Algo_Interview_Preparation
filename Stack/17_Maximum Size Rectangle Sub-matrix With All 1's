@@ -1,0 +1,87 @@
+//https://www.codingninjas.com/codestudio/problems/maximum-size-rectangle-sub-matrix-with-all-1-s_893017?leftPanelTab=0
+//
+
+#include<stack>
+    vector<int> nextsmallerele(vector<int> &arr,int n)
+    {
+         stack<int> st;
+         vector<int> res(n);
+        
+         for(int i=n-1;i>=0;i--)
+         {
+             int ele = arr[i];
+             while(!st.empty() && arr[st.top()]>=ele)
+                 st.pop();
+             int ans = (st.empty()) ? -1 : st.top();
+             res[i] = ans;
+             st.push(i); //push the index //imp
+         }
+         return res;
+    }
+    
+    vector<int> prevsmallerele(vector<int> &arr,int n)
+    {
+         stack<int> st;
+         vector<int> res(n);
+        
+         for(int i=0;i<n;i++)
+         {
+             int ele = arr[i];
+             while(!st.empty() && arr[st.top()]>=ele)
+                 st.pop();
+             int ans = (st.empty()) ? -1 : st.top();
+             res[i] = ans;
+             st.push(i); //push the index //imp
+         }
+         return res;  
+    }
+ 
+    int largestRectangleArea(vector<int>& heights,int n) 
+    {
+        
+        vector<int> next(n);
+        next = nextsmallerele(heights,n);
+        
+        vector<int> prev(n);
+        prev= prevsmallerele(heights,n);
+        
+        int maxarea = -1e9;
+        
+        for(int i=0;i<n;i++)
+        {
+            int l = heights[i];
+            if(next[i] == -1)
+                next[i] = n;
+            int b = next[i] - prev[i] - 1;
+            int area = l*b;
+            
+            maxarea = max(maxarea,area);
+            
+        }
+        return maxarea;
+        
+    }
+
+
+
+
+int maximalAreaOfSubMatrixOfAll1(vector<vector<int>> &mat, int n, int m)
+{
+	//calculate area of 1st row
+    int area = largestRectangleArea(mat[0],m);
+    
+    for(int i=1;i<n;i++)
+    {
+       for(int j=0;j<m;j++)
+       {
+           if(mat[i][j] != 0)
+               mat[i][j] += mat[i-1][j];
+           else
+               mat[i][j] = 0;
+       }
+       
+        area = max(area,largestRectangleArea(mat[i],m) );
+    }
+    
+    return area;
+}
