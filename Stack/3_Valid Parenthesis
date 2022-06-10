@@ -1,5 +1,9 @@
 //https://www.codingninjas.com/codestudio/problems/valid-parenthesis_795104?leftPanelTab=1
 
+Time Complexity: O(n) where n is the no of characters in the string.
+Space Complexity: O(n) where n is the no of characters in the string
+
+
 bool isValidParenthesis(string exp)
 {
     stack<char> s;
