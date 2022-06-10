@@ -1,4 +1,4 @@
-//
+//https://www.codingninjas.com/codestudio/problems/next-smaller-element_1112581?leftPanelTab=0
 #include<stack>
 #include<algorithm>
 vector<int> nextSmallerElement(vector<int> &arr, int n)
