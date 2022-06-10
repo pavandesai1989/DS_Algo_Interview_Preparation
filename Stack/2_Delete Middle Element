@@ -20,3 +20,17 @@ void deleteMiddle(stack<int>&inputStack, int N)
     int count = 0;
     solve(inputStack,N,count);
 }
+
+Time Complexity
+
+O(n), where n is the size of the stack. 
+
+Reason : Since we’re iterating over the stack recursively by making only one recursive call, which takes O(n) time and popping and pushing 
+operations take only O(1) time, the overall time complexity will be O(n). 
+
+Space Complexity
+
+O(n), where n is the size of the stack. 
+
+Reason: We haven’t used any other data structure or any other stack. Therefore, the only space taken is the space to store the elements
+in the stack, i.e; the size of the stack.
