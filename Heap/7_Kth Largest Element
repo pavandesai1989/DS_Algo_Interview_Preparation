@@ -1,0 +1,29 @@
+//https://leetcode.com/problems/kth-largest-element-in-an-array/
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) 
+    {
+        int n = nums.size();
+        
+        priority_queue<int,vector<int>,greater<int>> minheap;
+        for(int i=0;i<k;i++)
+            minheap.push(nums[i]);
+        
+        for(int i=k;i<n;i++)
+        {
+            if(nums[i] > minheap.top())
+            {
+                minheap.pop();
+                minheap.push(nums[i]);
+            }
+        }
+        return minheap.top();
+    }
+};
+
+Time : creating heap of k elements : O(K)
+       checking remaining ele (n-k) wit top : O(n-k)*logn
+       
+       total time : O(K + (N-K)* logN)
+       space : O(K)
