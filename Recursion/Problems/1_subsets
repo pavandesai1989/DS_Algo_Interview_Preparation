@@ -1,0 +1,32 @@
+//https://leetcode.com/problems/subsets/
+
+void helper(vector<int> nums,vector<int> output,int idx,vector<vector<int>> &res) //do not pass nums and output by reference
+{
+    //base case
+    if(idx >= nums.size())
+    {
+        res.push_back(output);
+        return;
+    }
+    
+    //exclude case
+    helper(nums,output,idx+1,res);
+    
+    //include ele
+    //int element = nums[idx];
+    output.push_back(nums[idx]);
+    
+    helper(nums,output,idx+1,res);
+}
+
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) 
+    {
+        vector<int> output;
+        vector<vector<int>> res;
+        helper(nums,output,0,res);
+        
+        return res;
+    }
+};
