@@ -1,0 +1,32 @@
+//https://leetcode.com/problems/subsets-ii/
+
+class Solution {
+    void helper(vector<int> &nums,int n,int idx,vector<int> &ds,vector<vector<int>> &res)
+    {
+        res.push_back(ds);
+        for(int i=idx;i<n;i++)
+        {
+            //when not to consider the duplicate element
+            if(i!=idx && nums[i] == nums[i-1]) continue; //do not take duplicate element
+            
+            //take the element
+            ds.push_back(nums[i]);
+            helper(nums,n,i+1,ds,res);
+            //on return remove the last added element
+            ds.pop_back();
+        }
+    }
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums)
+    {
+        vector<int> ds;
+        vector<vector<int>> res;
+        
+        //sort the array first
+        sort(nums.begin(),nums.end());
+        
+        helper(nums,nums.size(),0,ds,res);
+            
+        return res;    
+    }
+};
