@@ -1,0 +1,57 @@
+
+#include <iostream>
+#include<vector>
+using namespace std;
+
+void Print(vector<int> arr,int n,int idx,int s,int sum,vector<int> &ds,vector<vector<int>> &res)
+{
+    //base case
+    if(idx == n)
+    {
+        if(s == sum)
+        {
+           res.push_back(ds);
+           return; 
+        }
+        return;
+    }
+
+    //take case
+    ds.push_back(arr[idx]);
+    s += arr[idx];
+    Print(arr,n,idx+1,s,sum,ds,res);
+
+    //not take case
+    ds.pop_back();
+    s -= arr[idx];
+    Print(arr,n,idx+1,s,sum,ds,res);
+
+}
+
+int main() 
+{
+	vector<int> arr= {1,2,1};
+    int sum = 2;
+    int n = 3;
+    vector<int> ds;
+    vector<vector<int>> res;
+
+    Print(arr,n,0,0,sum,ds,res);
+
+    int n1 = res.size();//row
+    int m = res[0].size();//col
+
+    for(int i=0;i<n1;i++)
+    {
+        for(int j=0;j<m;j++)
+          cout<<res[i][j]<<" ";
+
+        cout<<endl;  
+    }
+   
+    
+
+
+	return 0;
+}
+
