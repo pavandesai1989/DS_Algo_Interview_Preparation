@@ -1,0 +1,28 @@
+//https://www.codingninjas.com/codestudio/problems/subset-sum_3843086?leftPanelTab=1
+
+#include<vector>
+#include<algorithm>
+void helper(vector<int> &num,int n,int i,int sum,vector<int> &ans)
+{
+    //base case
+    if(i == n)
+    {
+        ans.push_back(sum);
+        return;
+    }
+    
+    //take case
+    helper(num,n,i+1,sum+num[i],ans);
+    
+    //not take
+    helper(num,n,i+1,sum,ans);
+}
+
+
+vector<int> subsetSum(vector<int> &num)
+{
+    vector<int> ans;
+    helper(num,num.size(),0,0,ans);
+    sort(ans.begin(),ans.end());
+    return ans;
+}
