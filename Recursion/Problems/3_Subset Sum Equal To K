@@ -22,7 +22,10 @@ bool helper(vector<int>& arr,int size,int sum,int i,int s,vector<int> &ds)
     ds.pop_back();
     s -= arr[i];
     
-    helper(arr,size,sum,i+1,s,ds);
+    if(helper(arr,size,sum,i+1,s,ds) == true)
+        return true;
+    
+    return false;
 }
 
 bool subsetSumToK(int n, int k, vector<int> &arr) 
