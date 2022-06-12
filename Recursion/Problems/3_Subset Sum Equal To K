@@ -1,0 +1,32 @@
+//https://www.codingninjas.com/codestudio/problems/subset-sum-equal-to-k_1550954?leftPanelTab=0
+
+bool helper(vector<int>& arr,int size,int sum,int i,int s,vector<int> &ds)
+{
+    //base case
+    if(i == size)
+    {
+        if(s == sum)
+            return true;
+        else
+            return false;
+    }
+    
+    //pick case
+    ds.push_back(arr[i]);
+    s += arr[i];
+    
+    if(helper(arr,size,sum,i+1,s,ds) == true)
+        return true;
+    
+    //not take
+    ds.pop_back();
+    s -= arr[i];
+    
+    helper(arr,size,sum,i+1,s,ds);
+}
+
+bool subsetSumToK(int n, int k, vector<int> &arr) 
+{
+    vector<int> ds;
+    return helper(arr,n,k,0,0,ds);
+}
