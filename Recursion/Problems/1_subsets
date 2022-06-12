@@ -30,3 +30,10 @@ public:
         return res;
     }
 };
+
+
+Time Complexity: O(n(2 ^ n)). 
+For every index i two recursive cases originate, So Time Complexity is O(2^n). If we include the time taken to copy the subset vector into
+the res vector the time taken will be equal to the size of the subset vector.
+Space Complexity: O(n). 
+The space complexity can be reduced if the output array is not stored and the static and global variable is used to store the output string.
