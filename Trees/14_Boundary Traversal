@@ -1,0 +1,93 @@
+//https://www.codingninjas.com/codestudio/problems/boundary-traversal_790725?leftPanelTab=0
+
+/************************************************************
+
+    Following is the Binary Tree node structure:
+    
+    template <typename T>
+    class TreeNode {
+        public :
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~TreeNode() {
+            if(left)
+                delete left;
+            if(right)
+                delete right;
+        }
+    };
+
+************************************************************/
+
+bool isleaf(TreeNode<int>* root)
+{
+    return (root->left == NULL && root->right == NULL);
+}
+
+void leftboundary(TreeNode<int>* root,vector<int> &ds)
+{
+    root = root->left;
+    while(root)
+    {
+        if(!isleaf(root))
+            ds.push_back(root->data);
+        if(!root->left)
+            root = root->right;
+        else
+            root = root->left;
+    }
+}
+
+void addleafnodes(TreeNode<int>* root,vector<int> &ds)
+{
+    if(isleaf(root))
+    {
+        ds.push_back(root->data);
+        return;
+    }
+    if(root && root->left) addleafnodes(root->left,ds);
+    if(root && root->right) addleafnodes(root->right,ds);
+}
+
+void rightboundary(TreeNode<int>* root,vector<int> &ds)
+{
+    root = root->right;
+    vector<int> temp;
+    while(root)
+    {
+        if(!isleaf(root))
+            temp.push_back(root->data);
+        if(!root->right)
+            root = root->left;
+        else
+            root = root->right;
+    }
+    
+    for(int i=temp.size()-1;i>=0;i--)
+        ds.push_back(temp[i]);
+}
+
+vector<int> traverseBoundary(TreeNode<int>* root)
+{
+    vector<int> res;
+    if(!root)
+        return res;
+    
+    if(!isleaf(root))  //vimp 
+        res.push_back(root->data);
+    
+    leftboundary(root,res);
+    addleafnodes(root,res);
+    rightboundary(root,res);
+    
+    return res;
+    
+}
