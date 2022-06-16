@@ -1,0 +1,37 @@
+//https://www.codingninjas.com/codestudio/problems/path-sum_3170353?leftPanelTab=0
+
+/*************************************************
+
+    class TreeNode 
+        {
+           public:
+            int val;
+            TreeNode* left;
+            TreeNode* right;
+
+            TreeNode(int val) 
+            {
+                this->val = val;
+                left = NULL;
+                right = NULL;
+            }
+        };
+        
+*************************************************/
+
+int pathSum(TreeNode* root, int target)
+{
+    if(!root) return 0;
+    target = target - root->val;
+    //base case
+    if(!root->left && (!root->right))
+    {
+        if(target == 0)
+            return 1;
+        else
+            return 0;
+    }
+      
+    
+    return pathSum(root->left,target) + pathSum(root->right,target);
+}
