@@ -72,6 +72,6 @@ public:
                     root = root->right;
             }
         }
-        return dummy;
+        return dummy; 
     }
 };
