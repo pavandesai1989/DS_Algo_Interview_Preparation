@@ -1,0 +1,56 @@
+//https://www.codingninjas.com/codestudio/problems/bottom-view-of-binary-tree_893110?leftPanelTab=1
+
+/*************************************************************
+ 
+    Following is the Binary Tree node structure.
+
+    class BinaryTreeNode 
+    {
+    public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+*************************************************************/
+
+vector<int> bottomView(BinaryTreeNode<int> * root)
+{
+    vector<int> res;
+    if(!root)  return res;
+    
+    map<int,int> m;//hori distance and node value
+    queue<pair<BinaryTreeNode<int>*,int> > q;   //node ,hori distance
+    
+    q.push(make_pair(root,0));
+    
+    while(!q.empty())
+    {
+        pair<BinaryTreeNode<int>*,int> f = q.front();
+        q.pop();
+        
+        BinaryTreeNode<int>* fnode = f.first;
+        int hd = f.second;
+        
+        m[hd] = fnode->data;
+        
+        if(fnode->left)
+            q.push(make_pair(fnode->left,hd-1));
+        
+        if(fnode->right)
+            q.push(make_pair(fnode->right,hd+1));
+    }
+    
+    for(auto i:m)
+    {
+        res.push_back(i.second);
+    }
+    
+    return res;
+}
