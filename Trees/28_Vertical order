@@ -1,0 +1,87 @@
+//https://www.codingninjas.com/codestudio/problems/vertical-order-traversal_920533?leftPanelTab=1
+
+
+#include<queue>
+#include<vector>
+#include<map>
+/************************************************************
+
+Following is the Binary Tree node class
+    
+template <typename T = int>
+class TreeNode
+{
+public:
+    T data;
+    TreeNode<T> *left;
+    TreeNode<T> *right;
+
+    TreeNode(T val)
+    {
+        this->data = val;
+        left = NULL;
+        right = NULL;
+    }
+
+    ~TreeNode()
+    {
+        if (left != NULL)
+        {
+            delete left;
+        }
+        if (right != NULL)
+        {
+            delete right;
+        }
+    }
+};
+
+************************************************************/
+
+vector<int> verticalOrderTraversal(TreeNode<int> *root)
+{
+    vector<int> res;
+    if(!root)
+        return res;
+    
+    map<int,map<int,vector<int>>  >  nodes;
+    queue< pair<TreeNode<int>*,pair<int,int> > > q;   //hori distance,level
+    
+    //push the root node
+    q.push(make_pair(root,make_pair(0,0)));
+    
+    while(!q.empty())
+    {
+        pair<TreeNode<int>*,pair<int,int> >  f = q.front();
+        q.pop();
+        
+        TreeNode<int>* fnode = f.first;
+        //take the hori distance and the level
+        int hd = f.second.first;
+        int lvl = f.second.second;
+        
+        //add in the map
+        nodes[hd][lvl].push_back(fnode->data);
+        
+        if(fnode->left)
+            q.push( make_pair(fnode->left,make_pair(hd-1,lvl+1) )  );
+        
+        if(fnode->right)
+            q.push( make_pair(fnode->right,make_pair(hd+1,lvl+1) )  );
+        
+    }
+    
+    for(auto i:nodes)  //map<int,pair<int,vector<int>>>
+    {
+        for(auto j:i.second) //pair<int,vector<int>>
+        {
+            for(auto k:j.second)
+            {
+                res.push_back(k);
+            }
+        }
+    }
+    
+    return res;
+
+}
