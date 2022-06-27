@@ -1,1 +1,62 @@
-//
+//https://www.codingninjas.com/codestudio/problems/top-view-of-the-tree_799401?leftPanelTab=1
+
+#include<map>
+#include<vector>
+
+/************************************************************
+
+    Following is the TreeNode class structure:
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T val;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T val) {
+            this->val = val;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+
+vector<int> getTopView(TreeNode<int> *root) 
+{
+    vector<int> ans;
+    if(!root)   return ans;
+    
+    map<int,int> m;  //hori distance and node data 
+    queue<pair<TreeNode<int>*,int>> q;  //node and horizontal distance 
+    
+    q.push(make_pair(root,0));
+    
+    while(!q.empty())
+    {
+        pair<TreeNode<int>*,int> f = q.front();
+        q.pop();
+        
+        TreeNode<int>* fnode = f.first;
+        int hd = f.second;
+        
+        //check in mao
+        if(m.find(hd) == m.end())
+            m[hd] = fnode->val;
+        
+        if(fnode->left)
+            q.push(make_pair(fnode->left,hd-1));
+        
+        if(fnode->right)
+            q.push(make_pair(fnode->right,hd+1));
+        
+    }
+    
+    for(auto i: m)
+    {
+        ans.push_back(i.second);
+    }
+    
+    return ans;
+}
