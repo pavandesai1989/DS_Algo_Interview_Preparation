@@ -1,0 +1,28 @@
+//https://www.codingninjas.com/codestudio/problems/move-all-negative-numbers-to-beginning-and-positive-to-end_1112620?leftPanelTab=0
+
+
+vector<int> separateNegativeAndPositive(vector<int> &nums)
+{
+    int l = 0;
+    int e = nums.size()-1;
+    
+    while(l<e)
+    {
+        if(nums[l] < 0 && nums[e] > 0)
+        {
+            l++;
+            e--;
+        }
+        else if (nums[l]>0 && nums[e]<0)
+        {
+           swap(nums[l++],nums[e--]);
+        }
+        else if (nums[l]>0 && nums[e]>0)
+            e--;
+        else 
+            l++;
+    }
+    
+    return nums;
+    
+}
