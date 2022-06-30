@@ -1,0 +1,39 @@
+//https://www.codingninjas.com/codestudio/problems/fractional-knapsack_975286?leftPanelTab=0
+
+#include<algorithm>
+
+bool comp(pair<int,int> &a, pair<int,int> &b)
+{
+    double x = (double) a.second/a.first;
+    double y = (double) b.second/b.first;
+    
+    return x>y;
+}
+
+double maximumValue (vector<pair<int, int>>& items, int n, int w) //first weight //sec value
+{
+    
+    //sort based on the v/w ratio 
+    sort(items.begin(),items.end(),comp);
+    
+    double mxval = 0;
+    int currwt = 0;
+    
+    for(int i=0;i<n;i++)
+    {
+        if(currwt+items[i].first <= w)
+        {
+            mxval += items[i].second;
+            currwt += items[i].first;
+        }
+        else //fraction wt
+        {
+            int remainwt = w - currwt;
+            mxval += (double) remainwt/(items[i].first)* (items[i].second);
+            break;
+        }
+    }
+    
+    return mxval;
+    
+}
