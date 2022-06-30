@@ -1,0 +1,29 @@
+//https://www.codingninjas.com/codestudio/problems/minimum-number-of-platforms_799400?leftPanelTab=0
+
+int calculateMinPatforms(int at[], int dt[], int n) 
+{
+    sort(at,at+n);
+    sort(dt,dt+n);
+    
+    int mxtrains = 0;
+    int mxplatform = 0;
+    
+    int i = 0;
+    int j = 0;
+    
+    while(i<n && j<n)
+    {
+        if(at[i] <= dt[j])
+        {
+            mxtrains++;
+            i++;
+        }
+        else
+        {
+            mxtrains--;
+            j++;
+        }
+        mxplatform = max(mxplatform,mxtrains);
+    }
+    return mxplatform;
+}
