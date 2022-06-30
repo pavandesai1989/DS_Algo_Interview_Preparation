@@ -1,0 +1,38 @@
+//https://www.codingninjas.com/codestudio/problems/minimum-and-maximum-cost-to-buy-n-candies_975298?leftPanelTab=0
+
+// Function to calculate minimum cost.
+#include<algorithm>
+long long minimumCost(vector<int> &cost, int n, int k)
+{
+    sort(cost.begin(),cost.end());
+    int i = 0;
+    int j = n-1;
+    long long minval = 0;
+    
+    while(i<=j)
+    {
+        minval += cost[i];
+        i++;
+        j = j-k;
+    }
+    
+    return minval;
+}
+
+// Function to calculate maximum cost.
+long long maximumCost(vector<int> &cost, int n, int k)
+{
+    sort(cost.begin(),cost.end());
+    int i = 0;
+    int j = n-1;
+    long long maxval = 0;
+    
+    while(i<=j)
+    {
+        maxval += cost[j];
+        j--;
+        i = i+k;
+    }
+    
+    return maxval;
+}
