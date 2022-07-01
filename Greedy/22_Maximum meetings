@@ -1,0 +1,48 @@
+//https://www.codingninjas.com/codestudio/problems/maximum-meetings_1062658?leftPanelTab=0
+
+#include<algorithm>
+
+struct meeting
+{
+	int start,end,Id;
+};
+
+bool compare(struct meeting a,struct meeting b)
+{
+	if(a.end == b.end)
+        return a.Id < b.Id;
+    else
+        return a.end < b.end;
+}
+
+vector<int> maximumMeetings(vector<int> &start, vector<int> &end)
+{
+    vector<int> res;
+    int size = start.size();
+    struct meeting meet[size];
+    
+    //create the meet array of meetings 
+    for(int i=0;i<size;i++)
+    {
+        meet[i].start = start[i];
+        meet[i].end = end[i];
+        meet[i].Id = i+1;
+    }
+    
+    //sort the meeting array based on the end time 
+    sort(meet,meet+size,compare);
+    
+    int curr_time = meet[0].end;
+    res.push_back(meet[0].Id);
+    
+    for(int i=1;i<size;i++)
+    {
+        if(meet[i].start>curr_time)
+        {
+            res.push_back(meet[i].Id);
+            curr_time = meet[i].end;
+        }
+    }
+    
+    return res;
+}
