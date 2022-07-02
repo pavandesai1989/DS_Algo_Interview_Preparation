@@ -1,0 +1,36 @@
+//https://leetcode.com/problems/house-robber-ii/
+
+class Solution {
+    
+int ROBHOUSE(int n,vector<int> &nums)
+{
+    if(nums.size() == 1) return nums[0];
+    vector<int> dp(nums.size());
+        
+    //base case
+    dp[0] = nums[0]; //we reached dest
+    dp[1] = max(nums[1],nums[0]);
+    for(int i=2;i<nums.size();i++)
+        dp[i] = max(dp[i-1],nums[i] + dp[i-2]);
+
+    return dp[nums.size()-1];
+}
+    
+public:
+    int rob(vector<int>& nums) 
+    {
+        int n = nums.size();
+        if(n==1) return nums[0];
+    
+        vector<int> temp1;
+        vector<int> temp2;
+    
+        for(int i=0;i<n;i++)
+        {
+            if(i!=0) temp1.push_back(nums[i]); //exclude 1st houes
+            if(i!=n-1) temp2.push_back(nums[i]); //exclude last house
+        }
+    
+        return max(ROBHOUSE(n,temp1),ROBHOUSE(n,temp2));
+    }
+};
