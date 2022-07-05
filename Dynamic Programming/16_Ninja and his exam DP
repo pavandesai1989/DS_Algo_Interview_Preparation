@@ -1,0 +1,29 @@
+//https://www.codingninjas.com/codestudio/problems/ninja-and-his-exam_1214657?leftPanelTab=0
+
+int f(int ind,vector<int> &arr,int sum,vector<vector<int>> &dp)
+{
+    if(ind<0)  return 0;
+    
+    if(sum == 0)
+        return 1;
+    
+    if(dp[ind][sum] != -1)
+        return dp[ind][sum];
+    
+    //no pick
+    int nopick = f(ind-1,arr,sum,dp);
+    
+    //pick
+    int pick = 0;
+    if(arr[ind]<=sum)
+        pick = f(ind,arr,sum-arr[ind],dp);
+    
+    return dp[ind][sum] = pick+nopick;
+}
+
+int countWays(int n)
+{
+    vector<int> arr = {2,5,7};
+    vector<vector<int>> dp(3,vector<int>(n+1,-1));
+    return f(2,arr,n,dp);
+}
