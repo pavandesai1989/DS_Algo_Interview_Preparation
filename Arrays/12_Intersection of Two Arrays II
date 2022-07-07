@@ -1,0 +1,29 @@
+Intersection of Two Arrays II
+//https://leetcode.com/problems/intersection-of-two-arrays-ii/
+
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) 
+    {
+        vector<int> res;
+        map<int,int> m;
+        
+        //traverse array and store the no of occurances
+        for(auto ele: nums1)
+        {
+            m[ele]++;
+        }
+        
+        //traverse the 2nd array
+        for(auto ele:nums2)
+        {
+            auto it = m.find(ele);
+            if(it!=m.end() && it->second>0)
+            {
+                res.push_back(it->first);
+                it->second--;
+            }
+        }
+        return res;
+    }
+};
