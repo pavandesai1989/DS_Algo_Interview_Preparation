@@ -1,4 +1,6 @@
 //https://www.codingninjas.com/codestudio/problems/longest-common-subsequence_624879?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=1
+
+https://leetcode.com/problems/longest-common-subsequence/
 ******MEMOIZATION*********
 #include<vector>
 int f(int n1,int n2,string s,string t,vector<vector<int>> &dp)
