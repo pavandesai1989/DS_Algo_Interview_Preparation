@@ -1,0 +1,66 @@
+// https://www.codingninjas.com/codestudio/problems/selling-stock_630282?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=0
+
+****** RECURSION*****
+long f(int ind,long * values,int n,bool buy)
+{
+    if(ind == n)
+        return 0;
+    
+    long profit = 0;
+    
+    if(buy) //we can buy or we cannot buy
+    {
+        //if i buy 
+        profit = max ( -values[ind] + f(ind+1,values,n,0) , 0 + f(ind+1,values,n,1));
+    }
+    else //sell or no sell
+        profit = max( values[ind] + f(ind+1,values,n,1), 0 + f(ind+1,values,n,0));
+    
+    return profit;
+    
+}
+
+long getMaximumProfit(long *values, int n)
+{
+    return f(0,values,n,1);
+}
+
+
+*****MEMOIZATION****
+look for the changing parameters. Here ind and the buy value.
+Now identify the max value for the both . ind max value is n and buy can have o or 1. that is 2.
+
+dp array size is n*2
+
+#include<vector>
+
+long f(int ind,long * values,int n,bool buy,vector<vector<long>> &dp)
+{
+    if(ind == n)
+        return 0;
+    
+    if(dp[ind][buy] != -1)
+        return dp[ind][buy];
+    
+    long profit;
+    
+    if(buy) //we can buy or we cannot buy
+    {
+        //if i buy 
+        profit = max ( -values[ind] + f(ind+1,values,n,0,dp) , 0 + f(ind+1,values,n,1,dp));
+    }
+    else //sell or no sell
+        profit = max( values[ind] + f(ind+1,values,n,1,dp), 0 + f(ind+1,values,n,0,dp));
+    
+    return dp[ind][buy] = profit;
+    
+}
+
+long getMaximumProfit(long *values, int n)
+{
+    vector<vector<long>> dp(n,vector<long>(2,-1));
+    if(n==0) 
+        return 0;
+    long ans =  f(0,values,n,1,dp);
+    return ans;
+}
