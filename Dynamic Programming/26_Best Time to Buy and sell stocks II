@@ -1,4 +1,5 @@
 // https://www.codingninjas.com/codestudio/problems/selling-stock_630282?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=0
+..https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
 
 ****** RECURSION*****
 long f(int ind,long * values,int n,bool buy)
