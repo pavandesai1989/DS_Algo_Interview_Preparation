@@ -1,0 +1,124 @@
+//https://www.codingninjas.com/codestudio/problems/buy-and-sell-stock_1071012?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=0
+
+********* RECURSION******
+#include<vector>
+
+int f(int ind,bool buy,int cap,vector<int> &p,int n)
+{
+    if(ind == n) return 0;
+    if(cap == 0) return 0;
+    
+    int profit = 0;
+    
+    if(buy)
+    {
+        int buy = -p[ind] + f(ind+1,0,cap,p,n);
+        int nobuy = 0 + f(ind+1,1,cap,p,n);
+        
+        profit = max(buy,nobuy);
+    }
+    else
+    {
+        int sell = p[ind] + f(ind+1,1,cap-1,p,n);
+        int nosell = 0 + f(ind+1,0,cap,p,n);
+        
+        profit = max(sell,nosell);
+    }
+    
+    return profit;
+}
+
+
+int maxProfit(vector<int>& prices, int n)
+{
+    return f(0,1,2,prices,n);
+}
+
+
+********* MEMOIZATION******
+#include<vector>
+
+int f(int ind,bool buy,int cap,vector<int> &p,int n,vector<vector<vector<int>>> &dp)
+{
+    if(ind == n) return 0;
+    if(cap == 0) return 0;
+    
+    if(dp[ind][buy][cap] != -1)
+        return dp[ind][buy][cap];
+    
+    int profit = 0;
+    
+    if(buy)
+    {
+        int buy = -p[ind] + f(ind+1,0,cap,p,n,dp);
+        int nobuy = 0 + f(ind+1,1,cap,p,n,dp);
+        
+        profit = max(buy,nobuy);
+    }
+    else
+    {
+        int sell = p[ind] + f(ind+1,1,cap-1,p,n,dp);
+        int nosell = 0 + f(ind+1,0,cap,p,n,dp);
+        
+        profit = max(sell,nosell);
+    }
+    
+    return dp[ind][buy][cap] = profit;
+}
+
+
+int maxProfit(vector<int>& prices, int n)
+{
+    vector<vector<vector<int>>> dp(n,
+           vector<vector<int>>(2,vector<int>(3,-1)));
+    return f(0,1,2,prices,n,dp);
+}
+
+******LEETCODE ****
+class Solution {
+    int f(int ind,bool buy,int cap,vector<int> &p,int n,vector<vector<vector<int>>> &dp)
+    {
+        if(ind == n)
+            return 0;
+        if(cap == 0)
+            return 0;
+        
+        if(dp[ind][buy][cap] != -1)
+            return dp[ind][buy][cap];
+        
+        int profit = 0;
+        
+        if(buy)
+        {
+            int buy = -p[ind] + f(ind+1,0,cap,p,n,dp);
+            int nobuy = 0 + f(ind+1,1,cap,p,n,dp);
+            
+            profit = max(buy,nobuy);
+        }
+        else
+        {
+            int sell = p[ind] + f(ind+1,1,cap-1,p,n,dp);
+            int nosell = 0 + f(ind+1,0,cap,p,n,dp);
+            
+            profit = max(sell,nosell);
+        }
+        
+        return dp[ind][buy][cap] = profit;
+    }
+public:
+    int maxProfit(vector<int>& prices) 
+    {
+        int n = prices.size();
+        vector<vector<vector<int>>> dp(n,
+                                       vector<vector<int>> (2,vector<int>(3,-1)));
+        
+        return f(0,1,2,prices,n,dp);
+    }
+};
+
+********* TABULATION******************
+
+
+
+
+
