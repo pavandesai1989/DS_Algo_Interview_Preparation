@@ -65,3 +65,56 @@ long getMaximumProfit(long *values, int n)
     long ans =  f(0,values,n,1,dp);
     return ans;
 }
+
+********* TABULATION******
+#include<vector>
+
+long f(int ind,long * values,int n,bool buy,vector<vector<long>> &dp)
+{
+    if(ind == n)
+        return 0;
+    
+    if(dp[ind][buy] != -1)
+        return dp[ind][buy];
+    
+    long profit;
+    
+    if(buy) //we can buy or we cannot buy
+    {
+        //if i buy 
+        profit = max ( -values[ind] + f(ind+1,values,n,0,dp) , 0 + f(ind+1,values,n,1,dp));
+    }
+    else //sell or no sell
+        profit = max( values[ind] + f(ind+1,values,n,1,dp), 0 + f(ind+1,values,n,0,dp));
+    
+    return dp[ind][buy] = profit;
+    
+}
+
+long getMaximumProfit(long *values, int n)
+{
+    vector<vector<long>> dp(n+1,vector<long>(2,0));
+    dp[n][0] = dp[n][1] =0;
+    
+    long profit=0;
+    
+    for(int ind=n-1;ind>=0;ind--)
+    {
+        for(int buy=0;buy<=1;buy++)
+        {
+          if(buy) //we can buy or we cannot buy
+          {
+          //if i buy 
+           profit = max ( -values[ind] + dp[ind+1][0] , 0 + dp[ind+1][1]);
+          }
+          else //sell or no sell
+            profit = max( values[ind] + dp[ind+1][1], 0 + dp[ind+1][0]);
+    
+            dp[ind][buy] = profit;
+        }
+    }
+    
+    return dp[0][1];
+   
+}
+
