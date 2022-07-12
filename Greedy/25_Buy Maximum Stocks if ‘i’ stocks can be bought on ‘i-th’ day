@@ -1,0 +1,24 @@
+//https://www.codingninjas.com/codestudio/problems/buy-maximum-stocks-if-i-stocks-can-be-bought-on-i-th-day_1169470?leftPanelTab=0
+
+#include<algorithm>
+int maxStock(vector<int> &prices, int n, int amount)
+{
+    vector<pair<int,int>> p;
+    
+    for(int i=0;i<n;i++)
+    {
+        p.push_back({prices[i],i+1});
+    }
+    //sort based on the price
+    sort(p.begin(),p.end());
+    
+    int ans = 0;
+    for(int i=0;i<n;i++)
+    {
+        ans = ans + min(amount/p[i].first,p[i].second);
+        //update the amount
+        amount = amount - p[i].first * min(amount/p[i].first,p[i].second);
+    }
+    
+    return ans;
+}
