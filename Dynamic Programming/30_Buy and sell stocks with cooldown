@@ -30,4 +30,38 @@ int stockProfit(vector<int> &prices)
 
 
 ****** LEETCODE****
+class Solution 
+{
+    int f(vector<int> &p,int ind,int buy,int n,vector<vector<int>> &dp)
+    {
+        if(ind >= n)
+            return 0;
+        
+        if(dp[ind][buy] != -1)
+            return dp[ind][buy];
+        
+        int op1=0;
+        int op2=0;
+        
+        if(buy)
+        {
+            op1 = -p[ind] + f(p,ind+1,0,n,dp);  //buy
+            op2 = 0 + f(p,ind+1,1,n,dp);  //don't buy
+        }
+        else
+        {
+            op1 = p[ind] + f(p,ind+2,1,n,dp);   //sell
+            op2 = 0 + f(p,ind+1,0,n,dp);  //don't sell
+        }
+        
+        return dp[ind][buy] = max(op1,op2);
+    }
 
+public:
+    int maxProfit(vector<int>& prices) 
+    {
+        int n = prices.size();
+        vector<vector<int>> dp(n,vector<int>(2,-1));
+        return f(prices,0,1,n,dp);
+    }
+};
