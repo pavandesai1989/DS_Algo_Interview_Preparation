@@ -30,7 +30,7 @@ long long maximumCost(vector<int> &cost, int n, int k)
     while(i<=j)
     {
         maxval += cost[j];
-        j--;
+        j--; 
         i = i+k;
     }
     
