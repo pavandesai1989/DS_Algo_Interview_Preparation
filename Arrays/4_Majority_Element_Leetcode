@@ -1,5 +1,7 @@
 //Time o(n) and space o(n)
 
+https://leetcode.com/problems/majority-element/
+
 class Solution {
 public:
     int majorityElement(vector<int>& nums) 
