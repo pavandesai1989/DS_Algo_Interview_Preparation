@@ -1,0 +1,81 @@
+//https://leetcode.com/problems/longest-increasing-subsequence/submissions/
+
+*** RECURSION****
+class Solution {
+    int helper(int ind,int prev,int n,vector<int> &arr)
+    {
+        //base case
+        if(ind == n)
+            return 0;
+        
+        //not take case
+        int l1 = 0 + helper(ind+1,prev,n,arr);
+        //take case
+        int l2 = 0;
+        
+        if(prev == -1 || arr[ind]>arr[prev])
+           l2 = 1 + helper(ind+1,ind,n,arr);
+        
+        return max(l1,l2);
+    }
+public:
+    int lengthOfLIS(vector<int>& nums) 
+    {
+        return helper(0,-1,nums.size(),nums);
+    }
+};
+
+**** MEMOIZATION***
+class Solution {
+    int helper(int ind,int prev,int n,vector<int> &arr,vector<vector<int>> &dp)
+    {
+        //base case
+        if(ind == n)
+            return 0;
+        
+        if(dp[ind][prev+1] != -1)
+            return dp[ind][prev+1];
+        
+        //not take case
+        int l1 = 0 + helper(ind+1,prev,n,arr,dp);
+        //take case
+        int l2 = 0;
+        
+        if(prev == -1 || arr[ind]>arr[prev])
+           l2 = 1 + helper(ind+1,ind,n,arr,dp);
+        
+        return dp[ind][prev+1] = max(l1,l2);
+    }
+public:
+    int lengthOfLIS(vector<int>& nums) 
+    {
+        int n = nums.size();
+        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+        return helper(0,-1,n,nums,dp);
+    }
+};
+
+****** TABULATION*****
+    int lengthOfLIS(vector<int>& nums) 
+    {
+        int n = nums.size();
+        vector<vector<int>> dp(n+1,vector<int>(n+1,0));
+        
+        for(int ind=n-1;ind>=0;ind--)
+        {
+            for(int prev=ind-1;prev>=-1;prev--)
+            {
+                //not take 
+                int l1 = 0 + dp[ind+1][prev+1];
+                int l2 = 0;
+                
+                //take 
+                if(prev == -1 || nums[ind] > nums[prev])
+                    l2 = 1 + dp[ind+1][ind+1];
+                
+                dp[ind][prev+1] = max(l1,l2);
+            }
+            
+        }
+        return dp[0][-1+1];
+    }
