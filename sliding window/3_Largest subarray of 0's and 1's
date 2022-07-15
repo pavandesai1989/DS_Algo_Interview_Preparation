@@ -1,0 +1,33 @@
+//https://practice.geeksforgeeks.org/problems/largest-subarray-of-0s-and-1s/1/?page=1&difficulty[]=0&category[]=sliding-window&sortBy=submissions#
+
+//
+Time : 0(n). and space o(1)
+
+class Solution {
+public:
+    int findMaxLength(vector<int>& arr) 
+    {
+        int sum = 0;
+        int mx_len = 0;
+        unordered_map<int,int> hm;
+        int n = arr.size();
+        
+        for(int i=0;i<n;i++)
+            arr[i] = arr[i] == 0 ? -1:1;
+        
+        for(int i=0;i<n;i++)
+        {
+            sum += arr[i];
+            
+            if(sum == 0)
+                mx_len = i+1;
+            
+            //check if sum exists in the map
+            if(hm.find(sum) != hm.end())
+                mx_len = max(mx_len,i-hm[sum]);
+            else
+                hm[sum] = i;
+        }
+        return mx_len;
+    }
+};
