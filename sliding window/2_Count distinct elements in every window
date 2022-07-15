@@ -1,0 +1,71 @@
+//https://practice.geeksforgeeks.org/problems/count-distinct-elements-in-every-window/1/?page=1&difficulty[]=0&category[]=sliding-window&sortBy=submissions#
+
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+ // } Driver Code Ends
+
+class Solution{
+  public:
+    vector <int> countDistinct (int A[], int n, int k)
+    {
+       vector<int> res;
+       int left=0;
+       int right=0;
+       unordered_map<int,int> hm;
+       
+       for(int i=0;i<k;i++)
+          hm[A[i]]++;
+       
+       res.push_back(hm.size());
+       
+       for(right=k;right<n;right++)
+       {
+           //decrement count of prev window element
+           hm[A[left]]--;
+           
+           //if the count of prev window ele is zero remove from map
+           if(hm[A[left]] == 0)
+              hm.erase(A[left]);
+            
+            //update left
+            left++;
+            
+            //update count of curr window ele
+            hm[A[right]]++;
+            
+            res.push_back(hm.size());
+       }
+       return res;
+          
+    }
+};
+
+// { Driver Code Starts.
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+
+        int n, k;
+        cin >> n >> k;
+        int a[n];
+        for (int i = 0; i < n; i++) 
+        	cin >> a[i];
+        Solution obj;
+        vector <int> result = obj.countDistinct(a, n, k);
+        for (int i : result) 
+        	cout << i << " ";
+        cout << endl;
+    }
+    return 0;
+}  // } Driver Code Ends
+
+
+Time complexity O(n). A single traversal of the array is required.
+Space Complexity O(n). Since the hashmap requires linear space.
