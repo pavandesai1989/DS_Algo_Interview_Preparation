@@ -1,0 +1,71 @@
+//https://practice.geeksforgeeks.org/problems/maximum-sum-of-subarray-less-than-or-equal-to-x4033/1/?page=1&difficulty[]=0&category[]=sliding-window&sortBy=submissions#
+
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution{
+
+
+	public:
+	int findMaxSubarraySum(long long arr[], int n, long long sum)
+	{
+	   	long long res = 0;
+	    long long curr_sum = 0;
+	    int si = 0;
+	          
+	    for(int i=0;i<n;i++)
+	    {
+	        curr_sum += arr[i];
+	        
+	        while(curr_sum>sum && si<i)
+	        {
+	            curr_sum -= arr[si];
+	            si++;
+	        }
+	        
+            if(curr_sum <= sum)
+	           res = max(curr_sum,res);
+	   
+	    }
+	    
+	    return (int)res;
+	}  
+
+		 
+
+};
+	  
+
+
+
+// { Driver Code Starts.
+
+int main() 
+{
+   
+   
+   	int t;
+    cin >> t;
+    while (t--)
+    {
+    	 int n;
+        cin>>n;
+        
+        long long a[n];
+        for(int i=0; i<n; i++)
+            cin>>a[i];
+        
+        long long sum;
+        cin >> sum;
+        
+
+        Solution ob;
+		cout << ob.findMaxSubarraySum(a, n, sum);
+        
+	    cout << "\n";
+	     
+    }
+    return 0;
+}  // } Driver Code Ends
