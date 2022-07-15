@@ -1,0 +1,34 @@
+//https://leetcode.com/problems/subarray-sum-equals-k/
+
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) 
+    {
+        int sum=0;
+        int count=0;
+        unordered_map<int,int> hm;
+        int n = nums.size();
+        
+        for(int i=0;i<n;i++)
+        {
+            sum += nums[i];
+            if(sum == k)
+                count++;
+            
+            //check if sum-k is in map
+            if(hm.find(sum-k) != hm.end())
+            {
+                count = hm[sum-k] + count;
+            }
+            
+            //if sum is present increment its count
+            if(hm.find(sum) != hm.end())
+                hm[sum]++;
+            else
+                hm[sum] = 1;
+        }
+        return count;
+        
+    }
+};
+
