@@ -1,0 +1,58 @@
+
+
+int first(vector<int>& arr, int n, int k)
+{
+    int firstoccu=-1;
+    int startidx=0;
+    int endidx=n-1;
+    
+    while(startidx <= endidx)
+    {
+        int mid = startidx + (endidx-startidx)/2;
+        
+        if(arr[mid] >= k)
+        {
+            if(arr[mid] == k)
+                firstoccu = mid;
+            
+            endidx = mid-1;
+        }
+        else
+            startidx = mid+1;
+    }
+    
+    return firstoccu;
+
+}
+
+int last(vector<int>& arr, int n, int k)
+{
+    int last = -1;
+    int startind = 0;
+    int endind = n-1;
+    
+    while(startind<=endind)
+    {
+        int mid = startind + (endind-startind)/2;
+        
+        if(arr[mid] == k)//ele found
+        {
+            last = mid;
+            startind=mid+1;
+        }
+        else if(arr[mid] < k)
+            startind = mid+1;
+        else if(arr[mid] > k)
+            endind = mid-1;
+    }
+    return last;
+}
+
+
+pair<int, int> firstAndLastPosition(vector<int>& arr, int n, int k)
+{
+    int f = first(arr,n,k);
+    int l = last(arr,n,k);
+
+    return {f,l};
+}
