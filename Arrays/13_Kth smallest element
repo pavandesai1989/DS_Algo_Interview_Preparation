@@ -1,1 +1,66 @@
 
+//https://www.codingninjas.com/codestudio/problems/kth-smallest-element_893056
+
+**** BRUTEFORCE*****
+Brute Force
+Sort the elements of ‘ARR’ using function ‘SORT’
+Return element at ('K' - 1)th index
+Time Complexity
+O(N * logN) where ‘N’ is the number of elements in the array.
+
+ 
+
+As we are sorting the array which takes O(N * log(N)) time.
+
+Space Complexity
+O(1).
+
+**** USING MAXHEAP*****
+O(K + (N - K) * log K), where ‘N’ is the number of elements in the array and ‘K’ is the position of the minimum element we have to find out.
+Since we are first adding ‘K’ elements in the max heap which takes O(K) time and then querying for ‘N - K’ elements and each query takes 
+log K time to process, therefore net time complexity will be O(K + (N - K) * log K).
+
+#include<queue>
+int kthSmallest(vector<int> input, int k)
+{
+    int n = input.size();
+    //use max heap
+    priority_queue<int> mxheap;
+    for(int i=0;i<k;i++)
+        mxheap.push(input[i]);
+    
+    for(int i=k;i<n;i++)
+    {
+        if(input[i] < mxheap.top())
+        {
+            mxheap.pop();
+            mxheap.push(input[i]);
+        }
+    }
+    
+    return mxheap.top();
+}
+
+***** USING THE MIN HEAP****
+O(N + K * log N) where ‘N’ is the number of elements in the array and ‘K’ is the position of the minimum element we have to find out.
+
+Since we have to traverse the array and Make ‘K’ queries and each query takes O(logN) time.
+
+Space Complexity
+O(N),  where ‘N’ is the number of elements in the array.
+
+#include<queue>
+int kthSmallest(vector<int> input, int k)
+{
+    int n = input.size();
+    //use max heap
+    priority_queue<int,vector<int>,greater<int>> minheap;
+    
+    for(int i=0;i<n;i++)
+        minheap.push(input[i]);
+    
+    for(int i=0;i<k-1;i++)
+        minheap.pop();
+    
+    return minheap.top();
+}
