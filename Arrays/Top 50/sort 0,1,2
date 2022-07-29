@@ -1,0 +1,27 @@
+**** Optimal in 1 pass*****
+The three-pointers will be: current, zeroPos and twoPos.:
+current - This will hold the position of the current element that we’re on during the iteration of the array. This will be initialised to 0.
+zeroPos - This will hold the index where we will push any 0s that we may encounter. This will be initialised to 0.
+twoPos - This will hold the index where we will push any 2s that we may encounter. This will be initialised to n - 1, where n is the size of the array.
+
+#include <bits/stdc++.h> 
+void sort012(int *arr, int n)
+{
+    int curr=0;
+    int poszero=0;
+    int postwo=n-1;
+    
+    while(curr<=postwo)
+    {
+        if(arr[curr] == 0)
+        {
+            swap(arr[curr++],arr[poszero++]);
+        }
+        else if(arr[curr] == 2)
+        {
+            swap(arr[curr],arr[postwo--]);
+        }
+        else
+            curr++;
+    }
+}
