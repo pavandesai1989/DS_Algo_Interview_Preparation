@@ -1,5 +1,32 @@
 //https://leetcode.com/problems/intersection-of-two-arrays/submissions/
 
+
+****** Efficient ****
+Time o(n)
+space o(n)
+
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) 
+    {
+        vector<int> res;
+        //put all the elements of 1st vector in the unordered_Set
+        unordered_set<int>  myset(nums1.begin(),nums1.end());
+        
+        //traverse the 2nd vector and locate ele in the set. If found add to result and erase from the set
+        for(int i=0;i<nums2.size();i++)
+        {
+            if(myset.find(nums2[i]) != myset.end()) //found
+            {
+                res.push_back(nums2[i]);
+                myset.erase(nums2[i]);
+            }
+        }
+        return res;
+    }
+};
+
+
 ******** APPROACH 1*******
 Time Complexity = O(N*M), Space Complexity = O(N)
 
