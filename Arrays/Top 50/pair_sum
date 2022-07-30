@@ -1,0 +1,85 @@
+//https://www.codingninjas.com/codestudio/problems/pair-sum_1171154?leftPanelTab=1
+
+USE TWO POINTER IF SORTED AND NON NEGATIVE ELEMENTS
+/*
+    Time complexity: O(N)
+    Space complexity: O(1) 
+
+    Where 'N' represents the number of elements in the array/list 'ARR'.
+*/
+
+int pairSum(vector<int> &arr, int n, int target) {
+    // Variable to store the number of required pairs.
+    int countPair = 0;
+
+    int start = 0;
+    int end = n - 1;
+
+    // Start comparing the elements from both the ends.
+    while (start < end) {
+        // If sum of a pair results in target, then increment the value of required pairs.
+        if (arr[start] + arr[end] == target) {
+            countPair++;
+            // Reduce both the ends from respective sides.
+            start++;
+            end--;
+        }
+        // If pair sum if smaller then increase the left border for larger elements.
+        else if (arr[start] + arr[end] < target) {
+            start++;
+        } 
+        // If pair sum if larger then decrease the right border for smaller elements.
+        else {
+            end--;
+        }
+    }
+    // If no pairs are found, then return -1.
+    if (countPair == 0) {
+        return -1;
+    } 
+    // Return the number of required pairs.
+    return countPair;
+}
+
+
+*** brute force ***
+Time : o(n*n)
+
+int pairSum(vector<int> &arr, int n, int target)
+{
+	int ans=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i+1;j<n;j++)
+        {
+            if(arr[i] + arr[j] == target)
+                ans++;
+        }
+    }
+    if(ans == 0)
+        return -1;
+    else
+        return ans;
+}
+
+
+*****optimal*****
+#include <unordered_map>
+int pairSum(vector<int> &arr, int n, int target)
+{
+	int ans=0;
+    unordered_map<int,int> map;
+    
+    for(int i=0;i<n;i++)
+    {
+        int val = target-arr[i];
+        
+        if(map[val])
+        {
+            ans += map[val];
+        }
+        
+        map[arr[i]]++;
+    }
+    return ans==0?-1:ans;
+}
