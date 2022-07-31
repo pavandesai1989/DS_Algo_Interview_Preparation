@@ -1,0 +1,16 @@
+//https://www.codingninjas.com/codestudio/problems/remove-duplicates-from-sorted-array_1102307?leftPanelTab=1
+//Help : https://www.youtube.com/watch?v=Fm_p9lJ4Z_8&t=325s
+
+int removeDuplicates(vector<int> &arr, int n)
+{
+	int i=0;
+    for(int j=1;j<n;j++)
+    {
+        if(arr[i] != arr[j])//different elements
+        {
+           i++;
+           arr[i] = arr[j];
+        }
+    }
+    return i+1;
+}
