@@ -1,0 +1,22 @@
+//https://leetcode.com/problems/replace-elements-with-greatest-element-on-right-side/
+
+class Solution {
+public:
+    vector<int> replaceElements(vector<int>& arr) 
+    {
+        vector<int> res;
+        int n=arr.size();
+        res.push_back(-1);
+        int max_till=INT_MIN;
+        
+        for(int i=n-1;i>0;i--)
+        {
+            if(arr[i]>max_till)
+                max_till=arr[i];
+  
+            res.push_back(max_till);
+        }
+        std::reverse(res.begin(),res.end());
+        return res;
+    }
+};
