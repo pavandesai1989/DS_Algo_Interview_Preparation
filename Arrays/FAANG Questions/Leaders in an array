@@ -89,8 +89,30 @@ vector<int> findLeaders(vector<int> &a, int n)
                res.push_back(max_right);
            }
        }
-        reverse(res.begin(),res.end());
+        reverse(res.begin(),res.end());    //takes o(nlogn)
         return res;
+}
+
+******** STACK o(n) Time and o(n) space********
+#include<stack>
+vector<int> findLeaders(vector<int> &a, int n) 
+{
+     vector<int> res;
+     stack<int> st;
+     st.push(a[n-1]);
+    
+     for(int i=n-1;i>=0;i--)
+     {
+        if(a[i] > st.top())
+            st.push(a[i]);
+     }
+    
+    while(!st.empty())
+    {
+        res.push_back(st.top());
+        st.pop();
+    }
+    return res;
 }
 
 
