@@ -1,0 +1,48 @@
+//https://www.codingninjas.com/codestudio/problems/unique-pair-using-bits_972997?leftPanelTab=0
+
+****
+#include<unordered_map>
+vector<int> findNonRepeating(vector<int> a)
+{
+	vector<int> res;
+    int n=a.size();
+    unordered_map<int,int> mp;
+    
+    for(int i=0;i<n;i++)
+    {
+        mp[a[i]]++;
+    }
+    
+    for(auto ele:mp)
+    {
+        if(ele.second==1)
+        {
+            res.push_back(ele.first);
+        }
+    }
+    return res;
+}
+******
+#include<unordered_map>
+#include<algorithm>
+vector<int> findNonRepeating(vector<int> a)
+{
+	vector<int> res;
+    int n=a.size();
+    sort(a.begin(),a.end());
+    
+    int i=0;
+    while(i<n)
+    {
+        if(a[i]!=a[i+1])
+        {
+            res.push_back(a[i]);
+            i++;
+        }
+        else
+            i=i+2;
+    }
+    return res;
+}
+
+*****
