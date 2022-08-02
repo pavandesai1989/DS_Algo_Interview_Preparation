@@ -1,4 +1,5 @@
 //https://www.codingninjas.com/codestudio/problems/product-of-array-except-self_630271?leftPanelTab=0
+//https://leetcode.com/problems/product-of-array-except-self/
 
 **** BRUTEFORCE***
 int *getProductArrayExceptSelf(int *arr, int n)
