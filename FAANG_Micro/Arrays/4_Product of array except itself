@@ -1,0 +1,51 @@
+//https://www.codingninjas.com/codestudio/problems/product-of-array-except-self_630271?leftPanelTab=0
+
+**** BRUTEFORCE***
+int *getProductArrayExceptSelf(int *arr, int n)
+{
+    int* ptr = new int[n];
+    int idx=0;
+    
+    for(int i=0;i<n;i++)
+    {
+        int prod = 1;
+        for(int j=0;j<n;j++)
+        {
+            if(i!=j)
+                prod *= arr[j];
+        }
+        ptr[idx++] = prod;
+    }
+    return ptr;
+}
+
+*******
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) 
+    {
+        vector<int> res;
+        int n=nums.size();
+        
+        //calculate the left array
+        int prod=1;
+        for(int i=0;i<n;i++)
+        {
+            prod *= nums[i];
+            res.push_back(prod);
+        }
+        
+        prod = 1;
+        //traverse from the end
+        for(int i=n-1;i>0;i--)
+        {
+            res[i] = res[i-1] * prod;
+            prod *= nums[i];
+        }
+        
+        //Bcs
+        res[0] = prod;
+        
+        return res;
+    }
+};
