@@ -1,0 +1,54 @@
+//Max heap 
+https://www.codingninjas.com/codestudio/problems/is-binary-heap-tree_893136
+
+******* RECURSION*****
+int countnodes(BinaryTreeNode<int>* root)
+{
+    //base case
+    if(root == NULL)
+        return 0;
+    
+    return 1+ countnodes(root->left) + countnodes(root->right);
+}
+bool IsCBTFun(BinaryTreeNode<int>* root,int i,int nodes)
+{
+    if(!root) return true;
+    if(i >= nodes)
+        return false;
+    else
+    {
+        bool left = IsCBTFun(root->left,2*i+1,nodes);
+        bool right = IsCBTFun(root->right,2*i+2,nodes);
+        
+        return left && right;
+    }
+}
+
+bool IsMaxOrder(BinaryTreeNode<int>* root)
+{
+    //leaf node
+    if(root->left == NULL && root->right == NULL)
+        return true;
+    if(root->right == NULL)
+        return root->data > root->left->data;
+    else
+    {
+        bool left = IsMaxOrder(root->left);
+        bool right = IsMaxOrder(root->right);
+        
+        if(left && right && root->data>root->left->data && root->data>root->right->data)
+            return true;
+        else
+            return false;
+    }
+}
+bool isBinaryHeapTree(BinaryTreeNode<int>* root) 
+{
+    int nodes = countnodes(root);
+    if(IsCBTFun(root,0,nodes) && IsMaxOrder(root))
+        return true;
+    else
+        return false;
+}
+
+*****BFS****
