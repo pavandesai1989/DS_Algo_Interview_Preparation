@@ -2,43 +2,59 @@
 
 
 #include <bits/stdc++.h> 
+struct triplet
+{
+    int val;
+    int row;
+    int col;
+    
+    triplet(int v,int r,int c)
+    {
+        val = v;
+        row = r;
+        col = c;
+    }
+    
+};
+
+struct mycomp
+{
+    bool operator()(triplet &a,triplet &b)
+    {
+        return a.val > b.val;
+    }
+    
+};
 
 vector<int> mergeKSortedArrays(vector<vector<int>>&kArrays, int k)
 {
+    vector<int> res;
     
-{
-    vector<int> result; 
-  
-    // Create a min heap to store atmost k heap nodes at a time.
-    priority_queue<pair<int, pair<int, int> >, vector<pair<int, pair<int, int> > >, greater<pair<int, pair<int, int> > > > minHeap; 
-  
-    for (int i = 0; i < kArrays.size(); i++)
+    priority_queue<triplet,vector<triplet>,mycomp> minheap;
+    
+    for(int i=0;i<k;i++)
     {
-        minHeap.push({ kArrays[i][0], { i, 0 } }); 
+        triplet T(kArrays[i][0],i,0);
+        minheap.push(T);
     }
-  
-    while (minHeap.empty() == false) 
-    { 
     
-        // Remove the minimum element from the heap.
-        pair<int, pair<int, int> > curr = minHeap.top(); 
-        minHeap.pop(); 
-  
-        // i is the array number and j is the index of the removed element in the ith array.
-        int i = curr.second.first; 
-        int j = curr.second.second; 
-    
-        // Add the removed element to the output array.
-        result.push_back(curr.first); 
-  
-        // If the next element of the extracted element exists, add it to the heap.
-        if (j + 1 < kArrays[i].size())
+    while(!minheap.empty())
+    {
+        triplet M = minheap.top();
+        minheap.pop();
+        res.push_back(M.val);
+        
+        int i = M.row;
+        int j = M.col;
+        
+        if(j+1 < kArrays[i].size())
         {
-            minHeap.push({ kArrays[i][j + 1], { i, j + 1 } }); 
+            triplet Y(kArrays[i][j+1],i,j+1);
+            minheap.push(Y);
         }
-    } 
-  
-    // Return the output array.
-    return result; 
-}
+    }
+    return res;
+    
+   
+
 }
