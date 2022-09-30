@@ -1,0 +1,79 @@
+//https://leetcode.com/problems/k-closest-points-to-origin/
+
+***************
+
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) 
+    {
+        vector<vector<int>> res;
+        priority_queue<pair<double,int>> maxheap;
+        
+        for(int i=0;i<points.size();i++)
+        {
+            double di = sqrt( (points[i][0]*points[i][0]) + (points[i][1]*points[i][1]) );
+            pair<double,int> p1 = make_pair(di,i);
+            
+            maxheap.push(p1);
+            if(maxheap.size()>k)
+                maxheap.pop();
+        }
+        
+        while(!maxheap.empty())
+        {
+           int idx = maxheap.top().second;
+            vector<int> temp;
+            
+            temp.push_back(points[idx][0]);
+            temp.push_back(points[idx][1]);
+            
+            res.push_back(temp);
+            maxheap.pop();
+ 
+            
+        }
+        return res;
+        
+    }
+};
+
+
+
+****************
+
+
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) 
+    {       
+      	priority_queue<pair<double, int>> pq;
+
+	for (int i = 0; i < k; i++)
+	{
+		double val = sqrt(points[i][0] * points[i][0] + points[i][1] * points[i][1]);
+		pq.push({ val,i });
+	}
+
+	for (int i = k; i < points.size(); i++)
+	{
+		double curr = sqrt(points[i][0] * points[i][0] + points[i][1] * points[i][1]);
+		if (curr < pq.top().first)
+		{
+			pq.pop();
+			pq.push({ curr,i });
+		}
+	}
+
+	vector<vector<int>> res;
+
+	while (!pq.empty())
+	{
+		pair<double, int> top = pq.top();
+		res.push_back(points[top.second]);
+		pq.pop();
+	}
+
+	return res;        
+        
+    }
+};
