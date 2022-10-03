@@ -1,0 +1,86 @@
+//https://www.codingninjas.com/codestudio/problems/pair-sum-in-a-bst_920507?topList=top-microsoft-coding-interview-questions
+
+*******
+Time Complexity
+O(N), Where ‘N’ denotes the number of nodes in BST.
+
+ 
+
+As we are traversing all the nodes in the bst to check for the pairs having sum equal to ‘S’. Therefore, overall time complexity will be O(N).
+
+Space Complexity
+O(N), Where ‘N’ denotes the number of nodes in BST. 
+
+
+As we are using auxiliary space to store all the nodes after inorder traversal. Therefore, overall space complexity will be O(N).
+#include <bits/stdc++.h> 
+/**********************************************************
+    Following is the Binary Search Tree Node class structure
+
+    template <typename T>
+    class BinaryTreeNode {
+        public: 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~BinaryTreeNode() {
+            if (left)
+                delete left;
+            if (right)
+                delete right;
+        }
+    };
+***********************************************************/
+
+void inorder(BinaryTreeNode<int> *root,vector<int> &vec)
+{
+    if(!root)  return;
+    inorder(root->left,vec);
+    vec.push_back(root->data);
+    inorder(root->right,vec);
+}
+
+vector<vector<int>> printNodesSumToS(BinaryTreeNode<int> *root, int s)
+{
+    vector<vector<int>> res;
+    vector<int> dfs;
+    
+    inorder(root,dfs);
+    int low = 0;
+    int high = dfs.size()-1;
+    
+    while(low<high)
+    {
+        if(dfs[low] + dfs[high] == s)
+        {
+            vector<int> temp;
+            temp.push_back(dfs[low]);
+            temp.push_back(dfs[high]);
+            
+            res.push_back(temp);
+        }
+        
+        if(dfs[low] + dfs[high] > s)
+            high--;
+        else
+            low++;
+    }
+    
+    if(res.size() == 0)
+    {
+        vector<int> temp;
+        temp.push_back(-1);
+        temp.push_back(-1);
+        res.push_back(temp);
+    }
+    return res;
+}
+
+************
