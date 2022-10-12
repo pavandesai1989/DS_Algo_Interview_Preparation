@@ -1,0 +1,72 @@
+//https://leetcode.com/problems/intersection-of-two-linked-lists/
+//https://leetcode.com/problems/intersection-of-two-linked-lists/discuss/1093014/C%2B%2B-Four-different-solutions
+
+************* Time O(m+n) and space O(m)************************************
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
+    {
+        ListNode* curr1 = headA;
+        ListNode* curr2 = headB;
+        
+        set<ListNode*> myset;
+        
+        while(curr1!=nullptr)
+        {
+            myset.insert(curr1);
+            curr1 = curr1->next;
+        }
+        
+        while(curr2!=nullptr)
+        {
+            if(myset.find(curr2) != myset.end())
+                return curr2;
+            curr2 = curr2->next;
+        }
+        return nullptr;
+    }
+};
+******************************Time Complexity : O(m + n)
+Space Complexity : O(1)*********
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
+    {
+        ListNode* curr1 = headA;
+        ListNode* curr2 = headB;
+        
+        if(!curr1 || (!curr2))
+            return nullptr;
+        
+        while(curr1 != curr2)
+        {
+            if(curr1!=nullptr)
+              curr1 = curr1->next;
+            else
+              curr1 = headB; //original head imp
+            
+            if(curr2!=nullptr)
+                curr2 = curr2->next;
+            else
+                curr2 = headA;  //original head imp
+        }
+        return curr1;
+    }
+
+};
