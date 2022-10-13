@@ -1,0 +1,28 @@
+//https://www.interviewbit.com/problems/meeting-rooms/
+
+int Solution::solve(vector<vector<int> > &A) 
+{
+    sort(A.begin(),A.end()); //sort based on start time
+    int n = A.size();
+    priority_queue<int,vector<int>,greater<int>> minheap;
+    
+    for(int i=0;i<n;i++)
+    {
+        if(minheap.empty())
+        {
+            minheap.push(A[i][1]); //push end time
+        }
+        else
+        {
+            if(minheap.top()<=A[i][0])
+            {
+                minheap.pop();
+                minheap.push(A[i][1]);
+            }
+            else
+               minheap.push(A[i][1]);
+        }
+    }
+    return minheap.size();
+}
+
