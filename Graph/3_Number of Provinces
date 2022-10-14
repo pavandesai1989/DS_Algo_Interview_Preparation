@@ -1,0 +1,49 @@
+//https://leetcode.com/problems/number-of-provinces/
+
+class Solution {
+public:
+    
+    void recdfs(int node,vector<int>& vis,vector<int> adj[])
+    {
+        for(auto ele:adj[node])
+        {
+            if(!vis[ele])
+            { 
+                vis[ele] = 1;
+                recdfs(ele,vis,adj);
+            }    
+        }
+    }
+    
+    int findCircleNum(vector<vector<int>>& isConnected) 
+    {
+        //convert adj matrix to the list 
+        int v = isConnected.size();
+        vector<int> vis(v,0);
+        vector<int> adj[v];
+        
+        for(int i=0;i<v;i++)
+        {
+            for(int j=0;j<v;j++)
+            {
+                if(isConnected[i][j] == 1 && i!=j)
+                {
+                    adj[i].push_back(j);
+                    adj[j].push_back(i);
+                }
+            }
+        }
+
+        int count = 0;
+        for(int i=0;i<v;i++)
+        {
+            if(!vis[i])
+            {
+                count++;
+                recdfs(i,vis,adj);
+            }
+        }
+        return count;
+        
+    }
+};
