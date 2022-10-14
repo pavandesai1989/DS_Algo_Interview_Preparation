@@ -1,0 +1,47 @@
+//https://leetcode.com/problems/flood-fill/
+
+class Solution {
+public:
+    bool valid(int sr,int sc,int n,int m,int oricolor,vector<vector<int>>& image)
+    {
+        if(sr>=0 && sr<n && sc>=0 && sc<m && image[sr][sc] == oricolor)
+            return true;
+        
+        return false;
+    }
+    
+    void dfsrecu(int sr,int sc,int n,int m,int oricolor,int newcolor,vector<vector<int>>& image)
+    {
+        //add new color
+        image[sr][sc] = newcolor;
+        
+        //if any neighbour is of same oricolor call dfs on them
+        if(valid(sr+1,sc,n,m,oricolor,image))
+            dfsrecu(sr+1,sc,n,m,oricolor,newcolor,image);
+        
+        if(valid(sr-1,sc,n,m,oricolor,image))
+            dfsrecu(sr-1,sc,n,m,oricolor,newcolor,image);
+        
+        if(valid(sr,sc+1,n,m,oricolor,image))
+            dfsrecu(sr,sc+1,n,m,oricolor,newcolor,image);
+        
+        if(valid(sr,sc-1,n,m,oricolor,image))
+            dfsrecu(sr,sc-1,n,m,oricolor,newcolor,image);
+    }
+    
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) 
+    {
+        int n = image.size();
+        int m = image[0].size();
+        //save original color
+        int oricolor = image[sr][sc];
+        
+        if(oricolor == color)
+            return image;
+        
+        //we know the start idx call dfs on that 
+        dfsrecu(sr,sc,n,m,oricolor,color,image);
+        
+        return image;
+    }
+};
