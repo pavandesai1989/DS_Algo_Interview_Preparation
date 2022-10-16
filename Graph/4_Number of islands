@@ -1,5 +1,7 @@
 //https://leetcode.com/problems/number-of-islands/
 
+************** USING DFS*****************
+
 class Solution {
 public:
     bool isValid(int i, int j, int n , int m, vector<vector<char>>& grid){
@@ -45,3 +47,52 @@ public:
         return ans;
     }
 };
+
+************** USING BFS****
+ void bfs(int i,int j,int n,int m,vector<vector<char>> &grid)
+    {
+        grid[i][j] = '0';
+        queue<pair<int,int>> q;
+        q.push({i,j});
+        
+        while(!q.empty())
+        {
+            auto it = q.front();
+            int x = it.first;
+            int y = it.second;
+            q.pop();
+            
+            if(isvalid(i+1,j,n,m,grid))
+              bfs(i+1,j,n,m,grid);
+        
+            if(isvalid(i-1,j,n,m,grid))
+               bfs(i-1,j,n,m,grid);
+        
+            if(isvalid(i,j+1,n,m,grid))
+               bfs(i,j+1,n,m,grid);
+        
+            if(isvalid(i,j-1,n,m,grid))
+               bfs(i,j-1,n,m,grid);
+        }
+    }
+    
+    int numIslands(vector<vector<char>>& grid) 
+    {
+        int n = grid.size();
+        int m = grid[0].size();
+        int numofislands = 0;
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j] == '1')
+                {
+                    numofislands++;
+                    bfs(i,j,n,m,grid);
+                }
+            }
+        }
+        return numofislands;
+    }
+
