@@ -1,0 +1,22 @@
+//https://www.geeksforgeeks.org/convert-adjacency-matrix-to-adjacency-list-representation-of-graph/
+
+//https://workat.tech/problem-solving/practice/adjacency-matrix-to-adjacency-list
+
+
+vector<vector<int>> matrixToAdjList(int n, vector<vector<int>> &matrix) 
+{
+    vector<vector<int>> adjList(n);
+
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(matrix[i][j] == 1)
+				adjList[i].push_back(j);
+		}
+	}
+	return adjList;
+}
+
+Time Complexity: O(n2)
+Auxiliary Space Complexity: O(1)
