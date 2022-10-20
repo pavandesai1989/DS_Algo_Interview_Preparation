@@ -1,0 +1,80 @@
+//https://leetcode.com/problems/find-if-path-exists-in-graph/
+
+****DFS***
+class Solution {
+public:
+    
+    bool dfs(int i,vector<int> adj[],vector<int> &visi,int destination)
+    {
+        if(i==destination)
+            return true;
+        
+        visi[i] = 1;
+        
+        for(auto it:adj[i])
+        {
+            if(!visi[it])
+            {
+               if (dfs(it,adj,visi,destination) == true)
+                   return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) 
+    {
+        //create a graph
+        vector<int> adj[n];
+        for(auto it: edges)
+        {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        
+        vector<int> visi(n,0);
+        
+        return dfs(source,adj,visi,destination);
+    }
+};
+
+*******BFS****
+class Solution {
+public:
+    
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) 
+    {
+        //create a graph
+        vector<int> adj[n];
+        for(auto it: edges)
+        {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        
+        vector<int> seen(n,0);
+        queue<int> q;
+        q.push(source);
+        seen[source] = 1;
+        
+        while(!q.empty())
+        {
+            int fr = q.front();
+            q.pop();
+            
+            for(auto it:adj[fr])
+            {
+                if(!seen[it])
+                {
+                    seen[it] = 1;
+                    q.push(it);
+                }
+            }
+        }
+        if(seen[destination] == 1)
+            return true;
+        else
+            return false;
+    }
+};
