@@ -1,4 +1,105 @@
 //https://leetcode.com/problems/rotting-oranges/
+
+******************* PAVAN UNDERSTANDING CODE*********
+class Solution {
+public:
+    bool isvalid(int r,int c,int n,int m,vector<vector<int>> &grid)
+    {
+        if(r>=0 && r<n && c>=0 && c<m && grid[r][c] == 1)
+          return true;
+        
+        return false;  
+    }
+    
+    int orangesRotting(vector<vector<int>>& grid) 
+    {
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        int restime = 0;
+        
+        //push all rotten oranges to queue
+        queue<pair<int,int>> q;
+        int fresh = 0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j] == 2)  //rotten oranges
+                   q.push({i,j});
+                else if(grid[i][j] == 1)
+                    fresh++;
+            }
+        }
+        
+        if(fresh == 0)
+           return 0;
+           
+        while(!q.empty())
+        {
+            int qsize = q.size();
+            int temp = 0;
+            for(int i=0;i<qsize;i++)
+            {
+                int x = q.front().first;
+                int y = q.front().second;
+                q.pop(); //imp
+                
+                //it can go in 4 directions
+                if(isvalid(x+1,y,n,m,grid))
+                {
+                    temp++;
+                    q.push({x+1,y});
+                    grid[x+1][y] = 2;
+                }
+
+                if(isvalid(x-1,y,n,m,grid))
+                {
+                    temp++;
+                    q.push({x-1,y});
+                    grid[x-1][y] = 2;
+                }
+
+                   
+                if(isvalid(x,y+1,n,m,grid))
+                {
+                    temp++;
+                    q.push({x,y+1});
+                    grid[x][y+1] = 2;
+                }
+
+                   
+                if(isvalid(x,y-1,n,m,grid))
+                {
+                    temp++;
+                    q.push({x,y-1});
+                    grid[x][y-1] = 2;
+                }
+                   
+            }
+            
+            if(temp !=0)
+               restime++;
+        }
+        
+        //check if any fresh orange is remaining to which we cant reach
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    restime = -1;
+                    break;
+                }
+            }
+        }
+        
+        return restime;  
+    }
+};
+
+************************************************************************
 class Solution {
 public:
     bool isvalid(int i,int j,int n,int m,vector<vector<int>> &grid)
