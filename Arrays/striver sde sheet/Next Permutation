@@ -1,0 +1,51 @@
+//https://leetcode.com/problems/next-permutation/
+
+// Time : 3 O(n)
+   space : 0(1)
+   
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) 
+    {
+        if(nums.size() == 1)
+            return;
+        
+        //find the idx at which a[i]<a[i+1]
+        int idx1;
+        for(int i=nums.size()-2;i>=0;i--)
+        {
+            if(nums[i] < nums[i+1])
+            {
+                idx1 = i;
+                break;
+            }
+        }
+        
+        //if we have given the largest number 
+        if(idx1 < 0)
+        {
+            reverse(nums.begin(),nums.end());
+            return;
+        }
+        else
+        {
+            int idx2 = 0;
+            for(int i=nums.size()-1;i>=0;i--)
+            {
+                if(nums[i] > nums[idx1])
+                {
+                    idx2 = i;
+                    break;
+                }
+            }
+            
+                  
+            //sawp idx1 and idx2
+             swap(nums[idx1],nums[idx2]);
+        
+            //reverse the vector after idx1
+            reverse(nums.begin()+idx1+1,nums.end());
+        }
+
+    }
+};
