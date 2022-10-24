@@ -1,0 +1,80 @@
+//https://www.codingninjas.com/codestudio/problems/873366
+
+************ 
+Time :O(n)
+Space : o(n)
+
+#include <bits/stdc++.h> 
+#include <unordered_map>
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+	pair<int,int> res;
+    map<int,bool> umap;
+    
+    for(int i:arr)
+    {
+        if(umap.find(i) == umap.end())
+            umap[i] = true;
+        else
+            res.second = i;
+    }
+    
+    for(int i=1;i<=n;i++)
+    {
+        if(umap.find(i) == umap.end())
+            res.first = i;
+    }
+    
+    return res;
+}
+
+********nlogn +n and o(1) ******
+/*
+
+	Time complexity: O(N*log(N)) 
+	Space complexity: O(1)
+	
+	Where N is the length of the given array. 
+	
+*/
+
+#include <algorithm>
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+	// sorting the array
+	sort(arr.begin(), arr.end());
+	
+	int r, m;
+	
+	for(int i = 0; i < n - 1; i += 1)
+	{
+		// checking if two adjacent numbers are same
+		if(arr[i] == arr[i+1])
+		{
+			r = arr[i];
+			break;
+		}
+	}
+	
+	// calculating the sum of the given array
+	int currSum = 0;
+	for(int i = 0; i < n; i += 1)
+	{
+		currSum += arr[i];
+	}
+	
+	// sum of the numbers from 1 to n 
+	int actualSum = n*(n + 1)/2; 
+	
+	m = actualSum - (currSum - r);
+	
+	pair<int, int>ans;
+	
+	ans.first = m;
+	ans.second = r;
+	
+	return ans;
+	 
+}
