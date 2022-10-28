@@ -1,0 +1,100 @@
+//https://leetcode.com/problems/trapping-rain-water/
+
+***** BRUTE FORCE****
+class Solution {
+public:
+    int trap(vector<int>& height) 
+    {
+        int n = height.size();
+        int ans = 0;
+        
+        for(int i=1;i<n-1;i++) //do not consider end points as we can't store water
+        {
+            int left_max = 0;
+            int right_max = 0;
+            
+            //get the max on the left
+            for(int j=i;j>=0;j--)
+                left_max = max(left_max,height[j]);
+            
+            //get the right max 
+            for(int j=i;j<n;j++)
+                right_max = max(right_max,height[j]);
+            
+            ans += min(left_max,right_max) - height[i];
+        }
+        return ans;
+    }
+};
+
+********. Time o(n) and space o(n)***
+class Solution {
+public:
+    int trap(vector<int>& height) 
+    {
+        int n = height.size();
+        int ans = 0;
+        
+        vector<int> left(n,0);
+        vector<int> right(n,0);
+        
+        left[0] = height[0];
+        right[n-1] = height[n-1];
+        
+        for(int i=1;i<n;i++)
+            left[i] = max(left[i-1],height[i]);
+        
+        for(int j=n-2;j>=0;j--)
+            right[j] = max(right[j+1],height[j]);
+        
+        for(int i=0;i<n;i++)
+            ans += min(left[i],right[i]) - height[i];
+        
+        return ans;
+            
+            
+    }
+};
+
+
+******* Optimal time o(n) and space o(1)**** TWO POINTER 
+class Solution {
+public:
+    int trap(vector<int>& height) 
+    {
+        int n = height.size();
+        int left = 0;
+        int right = n-1;
+        int ans = 0;
+        
+        int LB = height[0];
+        int RB = height[n-1];
+        
+        while(left<=right)
+        {
+            //if left bar is the limiting 
+            if(LB < RB)
+            {
+                //if current ele is more than LB it cant store water and it will be LB
+                if(height[left] > LB)
+                   LB = height[left];
+                else
+                {
+                    ans += LB - height[left];
+                    left++;
+                }
+            }
+            else
+            {
+                if(height[right] > RB)
+                   RB = height[right];
+                else
+                {
+                    ans += RB - height[right];
+                    right--;
+                }
+            }
+        }
+        return ans;
+    }
+};
