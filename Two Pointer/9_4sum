@@ -1,0 +1,100 @@
+//https://leetcode.com/problems/4sum/
+
+
+Time Complexity: O(n³) 
+Reason: There are 2 nested loops and the front pointer as well as the right pointer (Third nested loop)
+
+Space Complexity: O(1), (Generally the space complexity that is used to return the answer is ignored)
+
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, long long target) 
+    {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+        int n = nums.size();
+        for(int i = 0; i< n - 3; i++){
+            if(i > 0 && nums[i] == nums[i - 1]){
+                continue;
+            }
+            for(int j = i + 1; j < n-2; j++){
+                if(j > i + 1 && nums[j] == nums[j - 1]){
+                    continue;
+                }
+                
+                long long tSum = target - (nums[i] + nums[j]);
+                int l = j + 1, h = n - 1;
+                while (l < h){
+                    if (nums[l] + nums[h] == tSum){
+                        vector<int> oneAns = {nums[i], nums[j], nums[l], nums[h]};
+                        ans.push_back(oneAns);
+                        while(l < h && nums[l] == nums[l + 1]){
+                            l++;
+                        }
+                        while(l < h && nums[h] == nums[h - 1]){
+                            h--;
+                        }
+                        l++;
+                        h--;
+                    }
+                    else if(nums[l] + nums[h] < tSum){
+                        l++;
+                    }
+                    else{
+                        h--;
+                    }
+                    
+                }
+                
+            }
+        }
+          
+        return ans;
+        /*vector<vector<int>> ans;
+        //sort the vector 
+        sort(nums.begin(),nums.end());
+        
+        //fix the i and j
+        int n = nums.size();
+        for(int i=0;i<n-3;i++)
+        {
+            if(i>0 && nums[i] == nums[i-1])
+                continue;
+            
+            for(int j=i+1;j<n-2;j++)
+            {
+                if(j>i+1 && nums[j] == nums[j-1])
+                    continue;
+                int tsum = target - (nums[i] + nums[j]);
+                
+                int low = j+1;
+                int high = n-1;
+
+                
+                while(low < high)
+                {
+                    if( tsum == nums[low] + nums[high])
+                    {
+                        vector<int> temp = {nums[i],nums[j],nums[low],nums[high]};
+                        ans.push_back(temp);
+                        
+                        while(low<high && nums[low] == nums[low+1])
+                            low++;
+                        
+                        while(low<high && nums[high] == nums[high-1])
+                            high--;
+                        
+                        low++;
+                        high--;
+                    }
+                    else if( nums[low] + nums[high] < tsum)
+                        low++;
+                    else
+                        high--;
+                }
+            }
+        }
+        return ans;*/
+    }
+};
