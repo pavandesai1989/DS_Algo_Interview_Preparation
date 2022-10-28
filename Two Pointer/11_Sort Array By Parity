@@ -1,0 +1,64 @@
+//https://leetcode.com/problems/sort-array-by-parity/
+
+**** PAVAN SOLUTION***
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& nums) 
+    {
+        if(nums.size() == 1)
+            return nums;
+        
+        int n = nums.size();
+        vector<int> res(n);
+        int low = 0;
+        int high = n-1;
+        
+        
+        int ks = 0;
+        int ke = n-1;
+        
+        while(low<=high)
+        {
+           if(nums[low] %2 != 0 && nums[high] %2 ==0)   // low odd and high even
+           {
+               res[ks++] = nums[high];
+               high--;
+           }
+           else if (nums[low] %2 != 0 && nums[high] %2 !=0)    //low and high odd
+           {
+               res[ke--] = nums[low];
+               low++;
+           }
+           else if(nums[low] %2 == 0 && nums[high] %2 !=0)  //low even and high odd
+           {
+               res[ks++] = nums[low];
+               res[ke--] = nums[high];
+               low++;
+               high--;
+           }
+           else   //both are even
+           {
+               res[ks++] = nums[low];
+               low++;
+           }
+           
+            
+            
+        }
+        return res;
+    }
+};
+
+
+vector<int> sortArrayByParity(vector<int>& A) {
+    int j=0;
+    for(int i=0;i<A.size();i++)
+	{
+        if(A[i]%2==0)
+		{
+            swap(A[i],A[j]);
+            j++;
+		}
+	}
+    return A;
+}
