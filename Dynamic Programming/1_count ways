@@ -1,0 +1,136 @@
+//https://practice.geeksforgeeks.org/problems/count-ways-to-reach-the-nth-stair-1587115620/1
+
+******* RECURSION******
+{
+    public:
+    //Function to count number of ways to reach the nth stair.
+    
+    int helper(int n)
+    {
+        //base case
+        if(n<=0)
+           return 1;
+        
+        if(n==1)
+           return 1;
+        
+        return helper(n-1) + helper(n-2);   
+    }
+    
+    int countWays(int n)
+    {
+        return helper(n);
+    }
+};
+
+
+Time : O(2 power n)
+space : recursion stack space o(n)
+
+
+
+**** MEMOIZATION****
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution
+{
+    public:
+    //Function to count number of ways to reach the nth stair.
+    
+    int helper(int n,int dp[])
+    {
+        int M = 1e9+7;
+        //base case
+        if(n<=1)
+           return dp[n] = 1;
+        
+        if(dp[n] != -1)
+            return dp[n];
+
+        return dp[n] = ( helper(n-1,dp) + helper(n-2,dp) ) %M;   
+    }
+    
+    int countWays(int n)
+    {
+        int dp[n+1];
+        memset(dp,-1,sizeof(dp));
+        return helper(n,dp);
+    }
+};
+
+
+
+//{ Driver Code Starts.
+int main()
+{
+    //taking total testcases
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        //taking stair count
+        int m;
+        cin>>m;
+        Solution ob;
+        cout<<ob.countWays(m)<<endl; // Print the output from our pre computed array
+    }
+    return 0;
+}
+
+// } Driver Code Ends
+
+Time Complexity: O(n), Here we use memoization hence it ensures that we call the recursion only ones for every stair.
+Auxiliary Space: O(n), For memoization
+
+
+****** TABULATION*******
+
+  int countWays(int n)
+    {
+        int M = 1e9+7;
+        int dp[n+1];
+        memset(dp,-1,sizeof(dp));
+        
+        //add base cases details
+        dp[0] = 1;
+        dp[1] = 1;
+        
+        for(int i=2;i<=n;i++)
+        {
+            dp[i] = (dp[i-1] + dp[i-2])%M;
+        }
+        return dp[n];
+    }
+    
+    Time Complexity: O(N)
+
+Reason: We are running a simple iterative loop
+
+Space Complexity: O(N)
+
+Reason: We are using an external array of size ‘n+1’.
+
+
+****** Space optimization*******
+ int countWays(int n)
+    {
+        int M = 1e9+7;
+        int prev2 = 1;
+        int prev=1;
+        
+        for(int i=2;i<=n;i++)
+        {
+            int curri = (prev2 + prev)%M;
+            
+            prev2 = prev;
+            prev = curri;
+        }
+        return prev;
+        
+        }
+        
+        Time : o(n)
+        space : 0(1)
