@@ -1,66 +1,71 @@
 //https://leetcode.com/problems/min-cost-climbing-stairs/
 
+code help
+
 ******** recursion*****
 class Solution {
-    
-    public:
-    int helper(int i,vector<int> &cost)
-    {
-        if( i >= cost.size())
-              return 0;
-        
-        int op1 = helper(i+1,cost,dp);
-        int op2 = helper(i+2,cost,dp);
-        
-        return min(op1,op2) + cost[i];
-    }
 public:
+    int solve(int idx,vector<int>& cost)
+    {
+        if(idx == 0)
+            return cost[0];
+        
+        if(idx == 1)
+            return cost[1];
+        
+        return cost[idx] + min(solve(idx-1,cost),solve(idx-2,cost));
+    }
+    
     int minCostClimbingStairs(vector<int>& cost) 
     {
-        return min(helper(0,cost),helper(1,cost));
+        int n = cost.size();
+        int ans = min(solve(n-1,cost),solve(n-2,cost));
+        return ans;
     }
 };
 
 ******** memoization******
-
 class Solution {
-private:
-class Solution {
-    
-    public:
-    int helper(int i,vector<int> &cost,vector<int> &dp)
-    {
-        if( i >= cost.size())
-              return 0;
-        
-        if(dp[i]!=-1)
-            return dp[i];
-        
-        int op1 = helper(i+1,cost,dp);
-        int op2 = helper(i+2,cost,dp);
-        
-        return dp[i] = min(op1,op2) + cost[i];
-    }
 public:
+    int solve(int idx,vector<int>& cost,vector<int> &dp)
+    {         
+        if(dp[idx] != -1)
+            return dp[idx];
+        
+        if(idx == 0)
+            return dp[idx] = cost[0];
+        
+        if(idx == 1)
+            return dp[idx] = cost[1];
+        
+        return dp[idx] = cost[idx] + min(solve(idx-1,cost,dp),solve(idx-2,cost,dp));
+    }
+    
     int minCostClimbingStairs(vector<int>& cost) 
     {
-        vector<int> dp(1001,-1);
-        return min(helper(0,cost,dp),helper(1,cost,dp));
+        int n = cost.size();
+        vector<int> dp(n+1,-1);
+        
+        int ans = min(solve(n-1,cost,dp),solve(n-2,cost,dp));
+        return ans;
     }
 };
 
+
+
 ********** Tabulation*****
-int minCostClimbingStairs(vector<int>& cost) 
+    int minCostClimbingStairs(vector<int>& cost) 
     {
         int n = cost.size();
-        vector<int> dp(n+2,0);
+        vector<int> dp(n+1,-1);
         
-        dp[n] = 0;
-        dp[n+1] = 0;
+        //base case
+        dp[0] = cost[0];
+        dp[1] = cost[1];
         
-        for(int i=n-1;i>=0;i--)
+        for(int i=2;i<n;i++)
         {
-            dp[i] = min(dp[i+1],dp[i+2]) + cost[i];
+            dp[i] = min(dp[i-1],dp[i-2]) + cost[i];
         }
-        return min(dp[0],dp[1]);
+        return min(dp[n-1],dp[n-2]);
     }
