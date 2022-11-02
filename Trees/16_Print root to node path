@@ -1,1 +1,29 @@
 
+//https://www.codingninjas.com/codestudio/problems/path-in-a-tree_3843990?leftPanelTab=0
+
+bool getpath(TreeNode<int> *root, int x,vector<int> &ds)
+{
+    if(!root)
+        return false;
+    
+    ds.push_back(root->data);
+    if(root->data == x)
+        return true;
+    
+    if(getpath(root->left,x,ds) || getpath(root->right,x,ds))
+        return true;
+    
+    ds.pop_back();
+    return false;
+}
+
+vector<int> pathInATree(TreeNode<int> *root, int x)
+{
+    vector<int> res;
+    if(!root)
+        return res;
+    
+    getpath(root,x,res);
+    
+    return res;
+}
