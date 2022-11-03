@@ -1,0 +1,47 @@
+//https://www.codingninjas.com/codestudio/problems/subtree-of-another-tree_893071?topList=top-amazon-coding-interview-questions&leftPanelTab=0
+
+
+/***************************************************
+  Following is the TreeNode Structure
+
+template <typename T>
+class TreeNode {
+   public:
+    T val;
+    TreeNode<T>* left;
+    TreeNode<T>* right;
+
+    TreeNode(T val) {
+        this->val = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+*****************************************************/
+
+bool identical(TreeNode<int> *T, TreeNode<int> *S)
+{
+    if (T == NULL && S == NULL)
+          return true; 
+        
+    if(T == NULL || S == NULL)
+          return false;
+    
+     return T->val == S->val && identical(T->left,S->left) && identical(T->right,S->right);
+}
+
+bool isSubtree(TreeNode<int> *T, TreeNode<int> *S)
+{
+    if(S == NULL)
+        return true;
+    
+    if( T == NULL)
+        return false;
+    
+    if(identical(T,S))
+        return true;
+    
+    return ( isSubtree(T->left,S) || isSubtree(T->right,S) );
+
+}
