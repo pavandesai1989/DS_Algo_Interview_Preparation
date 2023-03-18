@@ -127,6 +127,15 @@ public:
     }
 };
 
+ostream& operator<<(ostream& out,myvector& ob)
+{
+    for(int i=0;i<ob.getsize();i++)
+    {
+        out<<ob[i];
+    }
+    return out;
+}
+
 
 
 
@@ -136,8 +145,7 @@ int main()
     ob.pushback(1);
     ob.pushback(123);
 
-    cout<<ob[0]<<endl;
-    cout<<ob[1]<<endl;
+     print(vec);
     
     return 0;
 }
