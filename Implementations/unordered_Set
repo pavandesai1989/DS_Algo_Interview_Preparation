@@ -1,0 +1,72 @@
+#include<iostream>
+#include<list>
+
+using namespace std;
+
+
+class myhash
+{
+private:
+   list<int>* table;
+   int buckets;
+
+public:
+      myhash(int size)
+      {
+          buckets = size;
+          table = new list<int>[buckets];
+      }
+      int hashfun(int key)
+      {
+          return key%buckets;
+      } 
+      void insertitem(int key)
+      {
+          int idx=hashfun(key);
+          table[idx].push_back(key);
+      } 
+      void deleteitem(int key)
+      {
+          int idx=hashfun(key);
+          list<int>::iterator it;
+
+          for(it=table[idx].begin();it!=table[idx].end();it++)
+          {
+              if(*it==key)
+                 break;
+          }
+
+          //if key is found
+          if(it!=table[idx].end())
+              table[idx].erase(it);
+      }
+
+      void  displayhash()
+      {
+          for(int i=0;i<buckets;i++)
+          {
+              cout<<i;
+
+              for(auto ele:table[i])
+                  cout<<"-->"<<ele;
+
+              cout<<endl;    
+          }
+      }  
+
+};
+
+
+
+
+int main()
+{
+    myhash ob(7);
+
+    ob.insertitem(15);
+    ob.insertitem(11);
+    ob.insertitem(27);
+    ob.insertitem(8);
+
+    ob.displayhash();
+}
