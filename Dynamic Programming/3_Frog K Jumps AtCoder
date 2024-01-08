@@ -1,2 +1,89 @@
 
-//https://atcoder.jp/contests/dp/tasks/dp_a
+//https://www.codingninjas.com/studio/problems/minimal-cost_8180930?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+
+**********recursion****
+int helper(int idx,int n,int k,vector<int>& arr)
+{
+   //base case
+   if(idx==0)
+     return 0;
+
+    int ans = INT_MAX;
+    int left = INT_MAX; 
+
+    for(int i=1;i<=k;i++)
+    {
+        if(idx-i>=0)
+        left = helper(idx-i,n,k,arr) + abs(arr[idx]-arr[idx-i]);
+        ans = min(ans,left);
+    } 
+    return ans;
+}
+
+
+int minimizeCost(int n, int k, vector<int> &height)
+{
+    return helper(n-1,n,k,height);
+}
+
+*****************memoization**************
+int helper(int idx,int n,int k,vector<int>& arr,vector<int>& dp)
+{
+   //base case
+   if(idx==0)
+     return 0;
+
+    if(dp[idx]!=-1)
+       return dp[idx]; 
+
+    int ans = INT_MAX;
+    int left = INT_MAX; 
+
+    for(int i=1;i<=k;i++)
+    {
+        if(idx-i>=0)
+        {
+          left = helper(idx-i,n,k,arr,dp) + abs(arr[idx]-arr[idx-i]);
+          ans = min(ans,left);
+        }
+    } 
+    return dp[idx] = ans;
+}
+
+
+int minimizeCost(int n, int k, vector<int> &height)
+{
+    vector<int> dp(n,-1);
+    return helper(n-1,n,k,height,dp);
+}
+
+Time : o(n)* k // for k times loop
+space : 0(n)  // removed stack space 
+
+
+*****************TABULATION****
+int minimizeCost(int n, int k, vector<int> &arr)
+{
+    vector<int> dp(n,-1);
+    dp[0]=0;
+
+    for(int i=1;i<n;i++)
+    {
+        int ans = INT_MAX;
+        int left = INT_MAX;
+
+        for(int j=1;j<=k;j++)
+        {
+            if(i-j>=0)
+            {
+                left = dp[i-j] + abs(arr[i]-arr[i-j]);
+                ans = min(ans,left);
+            }
+        }
+        dp[i] = ans;
+    }
+    return dp[n-1];
+}
+
+time : o(n)
+space: o(n) //eliminated stack space 
