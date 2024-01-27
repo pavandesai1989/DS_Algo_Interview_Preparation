@@ -1,53 +1,49 @@
-bool ispossiblesolution(vector<int> arr,int n,int m,int mid)
+//https://www.codingninjas.com/studio/problems/allocate-books_1090540
+
+
+#include <bits/stdc++.h>
+int countNoOfStudents(vector<int>& arr, int n,int maxPages)
 {
-	int stucount = 1;
-	int pagesum = 0;
-	
-	for(int i=0;i<n;i++)
-	{
-		if(pagesum+arr[i]<=mid)
-			pagesum +=arr[i];
-		else
-		{
-			stucount++;
-			
-			if(stucount>m || arr[i]>mid)
-				return false;
-			
-			pagesum = arr[i];
-		}
-	}
-	
-	return true;
+   int student=1;
+   long long pagesStudent = 0;
+
+   for(int i=0;i<n;i++)
+   {
+       if(pagesStudent+arr[i]<=maxPages)
+       {
+           pagesStudent += arr[i];
+       }
+       else
+       {
+           student += 1;
+           pagesStudent = arr[i];
+       }
+   }
+   return student;
 }
 
 
 
 
-int allocateBooks(vector<int> arr, int n, int m) 
+int findPages(vector<int>& arr, int n, int m) 
 {
-    int s = 0;
-	int e = 0;
-	int ans = -1;
-	for(int i=0;i<n;i++)
-		e +=arr[i];
-	
-	int mid = s + (e-s)/2;
-	
-	while(s<=e)
-	{
-		if(ispossiblesolution(arr,n,m,mid))
-		{
-			ans = mid;
-			e = mid-1; //we want to minimise max number of pages
-		}
-		else
-			s = mid+1;
-		
-		mid = s + (e-s)/2;
-	}
-	
-	return ans;
-	
-	
+    if(m>n) return -1; //no of students grater than array length
+
+    //range would be from max ele in arr to sum of all eles in array
+    int low = *max_element(arr.begin(),arr.end());
+    int high = accumulate(arr.begin(),arr.end(),0);
+
+    while(low<=high)
+    {
+        int mid = low + (high-low)/2;
+        int cntStudents = countNoOfStudents(arr,n,mid);
+
+        if(cntStudents>m) //increase no of pages 
+           low = mid+1;
+        else 
+           high = mid-1;    //we need min of max value
+    }
+    return low; //start indx will ans, as we need min value
+    
+
 }
