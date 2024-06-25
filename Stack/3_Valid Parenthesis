@@ -13,24 +13,18 @@ bool isValidParenthesis(string exp)
         //if its open bracket 
         if(ch == '(' || ch == '{' || ch == '[')
             s.push(ch);
-        else//close bracket
-        {
-            if(!s.empty())
-            { 
-                char top = s.top();
-                if( ch == ')' && top == '(' ||
-                    ch == '}' && top == '{' ||
-                    ch == ']' && top == '[' )
-                    s.pop();
-                else
-                    return false;
-            }
-            else
-                return false;
-        }
+        else if(  !s.empty() && (ch == ')' && s.top() == '(' ||
+                  ch == '}' && s.top() == '{' ||
+                  ch == ']' && s.top() == '[' ))
+            s.pop();
+        else
+           s.push(ch);
+
     }
-    if(s.empty())
-        return true;
-    else
-        return false;
+
+    if(s.size()==0) return true;
+
+    return false;
 }
+
+
