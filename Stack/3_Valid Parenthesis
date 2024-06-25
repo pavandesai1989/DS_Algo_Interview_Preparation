@@ -22,9 +22,11 @@ bool isValidParenthesis(string exp)
 
     }
 
-    if(s.size()==0) return true;
+    return s.empty();
 
-    return false;
+    //return false;
 }
+
+
 
 
