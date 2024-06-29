@@ -3,19 +3,20 @@
 #include<algorithm>
 vector<int> nextSmallerElement(vector<int> &arr, int n)
 {
-   stack<int> s;
-   vector<int> ans(n); 
-   for(int i=n-1;i>=0;i--)
-   {
-       int ele = arr[i];
-       
-       while(!s.empty() && s.top()>= ele)
-           s.pop();
-       
-       int res = (s.empty()) ? -1 : s.top();
-       ans[i] = res;
-       s.push(ele);
-       
-   }
-    return ans;
+         stack<int> st;
+         vector<int> res(n);
+         st.push(-1);
+        
+         for(int i=n-1;i>=0;i--)
+         {
+             int ele = arr[i];
+             while(!st.empty() && st.top()>=ele)
+                 st.pop();
+             int ans = st.top();
+             res[i] = ans;
+             st.push(ele); //push the index //imp
+         }
+         return res;
 }
+
+
